@@ -4,13 +4,21 @@ using System.Text;
 
 namespace EntertainmentMaze.maze
 {
-    internal class Maze
+    public class Maze
     {
         private Room[,] _Rooms;
         private Player _Player;
-        internal int Rows { get; set; }
-        internal int Columns { get; set; }
+        public int Rows { get; set; }
+        public int Columns { get; set; }
         public static MazeBuilder createBuilder() => new MazeBuilder();
+
+        public Maze(int rows, int columns)
+        {
+            Rows = rows;
+            Columns = columns;
+        }
+
+        public Maze() { }
 
         public void CompleteBuild()
         {

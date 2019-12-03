@@ -7,8 +7,7 @@ namespace EntertainmentMaze
     {
         public static void Main()
         {
-            MazeBuilder mazeBuilder = new MazeBuilder();
-            Maze simpleMaze = mazeBuilder.setRows(5).setColumns(5).Build();
+            
         }
     }
 }

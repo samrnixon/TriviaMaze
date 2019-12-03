@@ -9,9 +9,10 @@ namespace EntertainmentMazeTests
     internal class DoorTests
     {
         [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void MyTestMethod()
         {
-
+            
         }
     }
 }

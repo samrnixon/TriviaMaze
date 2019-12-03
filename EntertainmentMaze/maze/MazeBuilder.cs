@@ -4,9 +4,9 @@ using System.Text;
 
 namespace EntertainmentMaze.maze
 {
-    internal class MazeBuilder
+    public class MazeBuilder
     {
-        internal readonly Maze Maze = new Maze();
+        internal Maze Maze = new Maze();
         private bool FinishedBuild = false;
 
         public Maze Build()
