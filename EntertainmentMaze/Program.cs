@@ -1,12 +1,14 @@
-﻿using System;
+﻿using EntertainmentMaze.maze;
+using System;
 
 namespace EntertainmentMaze
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main()
         {
-            Console.WriteLine("Hello World!");
+            MazeBuilder mazeBuilder = new MazeBuilder();
+            Maze simpleMaze = mazeBuilder.setRows(5).setColumns(5).Build();
         }
     }
 }
