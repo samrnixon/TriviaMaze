@@ -16,17 +16,24 @@ namespace EntertainmentMaze.maze
             return Maze;
         }
 
-        public MazeBuilder setRows(int rows)
+        public MazeBuilder SetRows(int rows)
         {
             Check();
             Maze.Rows = rows;
             return this;
         }
 
-        public MazeBuilder setColumns(int columns)
+        public MazeBuilder SetColumns(int columns)
         {
             Check();
             Maze.Columns = columns;
+            return this;
+        }
+
+        public MazeBuilder SetPlayer(Player player)
+        {
+            Check();
+            Maze.Player = player;
             return this;
         }
 

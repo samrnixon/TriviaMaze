@@ -7,15 +7,16 @@ namespace EntertainmentMaze.maze
     public class Maze
     {
         private Room[,] _Rooms;
-        private Player _Player;
+        public Player Player { get; set; }
         public int Rows { get; set; }
         public int Columns { get; set; }
         public static MazeBuilder createBuilder() => new MazeBuilder();
 
-        public Maze(int rows, int columns)
+        public Maze(int rows, int columns, Player player)
         {
             Rows = rows;
             Columns = columns;
+            Player = player;
         }
 
         public Maze() { }

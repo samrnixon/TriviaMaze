@@ -18,9 +18,9 @@ namespace EntertainmentMazeTests
         {
             //Arrange
             MazeBuilder mazeBuilder = new MazeBuilder();
-            Maze expectedMaze = new Maze(rows, columns);
+            Maze expectedMaze = new Maze(rows, columns, null);
             //Act
-            Maze actualMaze = mazeBuilder.setRows(rows).setColumns(columns).Build();
+            Maze actualMaze = mazeBuilder.SetRows(rows).SetColumns(columns).Build();
 
             //Assert
             Assert.AreEqual<int>(expectedMaze.Rows, actualMaze.Rows);
