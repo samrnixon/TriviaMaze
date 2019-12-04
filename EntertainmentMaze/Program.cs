@@ -1,4 +1,4 @@
-﻿using EntertainmentMaze.maze;
+using EntertainmentMaze.maze;
 using System;
 
 namespace EntertainmentMaze
