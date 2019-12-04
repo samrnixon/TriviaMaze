@@ -7,8 +7,16 @@ namespace EntertainmentMaze
     {
         public static void Main()
         {
-            MazeBuilder mazeBuilder = new MazeBuilder();
-            Maze simpleMaze = mazeBuilder.setRows(5).setColumns(5).Build();
+            var mazeBuilder = new MazeBuilder();
+            var newPlayer = new Player(Player.GetName("FirstName"), Player.GetName("LastName"));
+            Maze playerMaze = mazeBuilder
+                .SetRows(5)
+                .SetColumns(5)
+                .SetPlayer(newPlayer)
+                .Build();
+
+            Console.WriteLine();
         }
+
     }
 }

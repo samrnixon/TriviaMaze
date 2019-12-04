@@ -9,9 +9,13 @@ namespace EntertainmentMazeTests
     internal class BuildSimpleMazeTests
     {
         [TestMethod]
-        public void MyTestMethod()
+        public void BuildSimpleMaze_BuildsDesiredMazeSize_Success()
         {
+            //Arrange
 
+            //Act
+
+            //Assert
         }
     }
 }

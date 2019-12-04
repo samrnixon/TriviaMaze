@@ -6,6 +6,6 @@ namespace EntertainmentMaze.maze
 {
     internal class BuildSimpleMaze
     {
-        public Maze BuildMaze() => new MazeBuilder().setRows(5).setColumns(5).Build();
+        public Maze BuildMaze() => new MazeBuilder().SetRows(5).SetColumns(5).Build();
     }
 }
