@@ -2,16 +2,22 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using EntertainmentMaze;
+using EntertainmentMaze.Database;
+using EntertainmentMaze.maze;
 
 namespace EntertainmentMazeTests
 {
     [TestClass]
-    internal class QuestionTests
+    public class QuestionTests
     {
         [TestMethod]
-        public void MyTestMethod()
+        public void ConnectionToDatabase_Successful()
         {
+            DatabaseConnection databaseConnection = new DatabaseConnection();
+            List<Question> expectedQuestions = databaseConnection.ReadData();
 
+            Console.WriteLine();
         }
     }
 }

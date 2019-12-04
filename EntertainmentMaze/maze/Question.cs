@@ -5,25 +5,28 @@ using System.Text;
 
 namespace EntertainmentMaze.maze
 {
-    internal class Question
+    public class Question
     {
+        private int questionID { get; }
+        private int answerID { get; }
+        private int typeID { get; }
+        private string question { get; }
+        private string answer { get; }
+
         private enum QuestionTypes
         {
             TrueFalse = 0,
             ShortAnswer = 1,
             MultipleChoice = 2
         }
-        
-        private Question _Question;
-        private string _Answer;
-        private QuestionTypes _Type;
 
-        public Question(Question question)
+        public Question(int questionID, int answerID, int typeID, string question, string answer)
         {
-            _Type = GenerateRandomNumberForQuestionTypeValue();
-            _Question = question;
-            _Answer = "";
-
+            this.questionID = questionID;
+            this.answerID = answerID;
+            this.typeID = typeID;
+            this.question = question ?? throw new ArgumentNullException(nameof(question));
+            this.answer = answer ?? throw new ArgumentNullException(nameof(answer));
         }
 
         private QuestionTypes GenerateRandomNumberForQuestionTypeValue()

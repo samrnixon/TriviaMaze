@@ -1,52 +1,77 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Text;
+using EntertainmentMaze.maze;
+using System.IO;
 
 namespace EntertainmentMaze.Database
 {
-    class DatabaseConnection
+    public class DatabaseConnection
     {
-        public SQLiteConnection CreateConnection()
+        //NEED TO MAKE DYNAMIC
+        private static readonly string connectionString = @"Data Source = C:\Users\Sam\source\repos\TriviaMaze_cs\TriviaMaze\EntertainmentMaze\bin\TriviaDatabase.db;";
+        private static readonly string cmdString = "SELECT * FROM QUESTION;";
+        public SQLiteConnection GetConnection()
         {
-
-            SQLiteConnection sqlite_conn;
-            sqlite_conn = new SQLiteConnection("Data Source=Database/TriviaDatabase.db");
+            SQLiteConnection sqlite_conn = new SQLiteConnection("Data Source=TriviaDatabase.db");
 
             try
             {
                 sqlite_conn.Open();
+                return sqlite_conn;
             }
-            catch (Exception)
+            catch(Exception)
             {
-
+                throw new ArgumentException(nameof(sqlite_conn));
             }
-            return sqlite_conn;
         }
 
-        public void ReadData()
+        public List<Question> ReadData()
         {
-            SQLiteConnection connection = CreateConnection();
-            SQLiteCommand sqliteCmd = connection.CreateCommand();
-            sqliteCmd = new SQLiteCommand("SELECT * FROM QUESTION", connection);
-            SQLiteDataReader sqliteDatareader = sqliteCmd.ExecuteReader();
+            List<Question> questionCollection = new List<Question>();
 
-            string[] questionCollection = new string[25];
-            int i = 0;
-
-            while (sqliteDatareader.Read())
+            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
             {
+                connection.Open();
 
-                int questionID = sqliteDatareader.GetInt32(0);
-                int answerID = sqliteDatareader.GetInt32(1);
-                string question = sqliteDatareader.GetString(2);
+                using(SQLiteCommand sQLiteCommand = new SQLiteCommand(cmdString,connection))
+                {
+                    SQLiteDataReader sqliteDatareader = sQLiteCommand.ExecuteReader();
 
-                questionCollection[i] = question;
+                    while (sqliteDatareader.Read())
+                    {
 
-                i++;
+                        int questionID = sqliteDatareader.GetInt32(0);
+                        int answerID = sqliteDatareader.GetInt32(1);
+                        string answer = "";
+                        int typeID = sqliteDatareader.GetInt32(2);
+                        var question = sqliteDatareader.GetString(3);
+
+                        string answerIDString = answerID.ToString();
+
+                        SQLiteCommand answerCommand = new SQLiteCommand("SELECT ANSWER FROM ANSWER WHERE ANSWERID ="+ answerIDString + ";", connection);
+
+                        SQLiteDataReader sqliteDatareaderForAnswer = answerCommand.ExecuteReader();
+
+                        while(sqliteDatareaderForAnswer.Read())
+                        {
+                            answer = sqliteDatareaderForAnswer.GetString(0);
+                        }
+                        
+                        Question q = new Question(questionID, answerID, typeID, question, answer);
+                        questionCollection.Add(q);
+                    }
+
+                    connection.Close();
+
+                    return questionCollection;
+                }
             }
+        }
 
-            connection.Close();
+        private string GetDirForDatabase()
+        {
+            return Directory.GetCurrentDirectory();
         }
     }
 }
