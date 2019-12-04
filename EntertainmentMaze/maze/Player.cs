@@ -12,35 +12,18 @@ namespace EntertainmentMaze.maze
 
         public Player(string firstName, string lastName)
         {
-            FirstName = firstName;
-            LastName = lastName;
+            FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));
+            LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));
         }
 
         public static string GetName(string nameType)
         {
-            switch (nameType)
-            {
-                case "FirstName":
-                    Console.WriteLine("Please enter your first name: ");
-                    return NameCheck();
-                case "LastName":
-                    Console.WriteLine("Please enter your last name: ");
-                    return NameCheck();
-                default:
-                    return "No name";
-            }
-        }
-
-        public static string NameCheck()
-        {
-            
             bool value = true;
             var name = "";
-            while(value)
+            while (value)
             {
-                name = Console.ReadLine();
-                MatchCollection matchCollection = Regex.Matches(name, "[a-zA-z]{1,50}");
-                if (matchCollection.Count > 0)
+                name = GetValidName(nameType);
+                if(!(name is null))
                 {
                     value = false;
                 }
@@ -49,7 +32,36 @@ namespace EntertainmentMaze.maze
             return name;
         }
 
-        public string toString()
+        private static string GetValidName(string nameType)
+        {
+            switch (nameType)
+            {
+                case "FirstName":
+                    Console.Write("Please enter your first name: ");
+                    return NameCheck();
+                case "LastName":
+                    Console.Write("Please enter your last name: ");
+                    return NameCheck();
+                default:
+                    return "No name";
+            }
+        }
+
+        public static string NameCheck()
+        {
+            var name = Console.ReadLine();
+            MatchCollection matchCollection = Regex.Matches(name, "[a-zA-Z]{1,50}");
+            if(matchCollection.Count > 0)
+            {
+                return name;
+            }
+
+            return null;
+        }
+
+
+
+        public override string ToString()
         {
             return $"{FirstName}, {LastName}";
         }

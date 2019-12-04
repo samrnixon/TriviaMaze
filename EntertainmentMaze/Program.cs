@@ -14,6 +14,8 @@ namespace EntertainmentMaze
                 .SetColumns(5)
                 .SetPlayer(newPlayer)
                 .Build();
+
+            Console.WriteLine();
         }
 
     }

@@ -37,6 +37,7 @@ namespace EntertainmentMaze.maze
             return this;
         }
 
+
         private void Check()
         {
             if(FinishedBuild)
