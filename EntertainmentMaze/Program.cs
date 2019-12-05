@@ -1,3 +1,4 @@
+using EntertainmentMaze.Database;
 using EntertainmentMaze.maze;
 using System;
 
@@ -7,6 +8,7 @@ namespace EntertainmentMaze
     {
         public static void Main()
         {
+            DatabaseListRetrieval.InitializeList();
             var mazeBuilder = new MazeBuilder();
             var newPlayer = new Player(Player.GetName("FirstName"), Player.GetName("LastName"));
             Maze playerMaze = mazeBuilder
@@ -15,7 +17,8 @@ namespace EntertainmentMaze
                 .SetPlayer(newPlayer)
                 .Build();
 
-            Console.WriteLine();
+            Console.WriteLine(playerMaze.PrintMaze());
+
         }
 
     }

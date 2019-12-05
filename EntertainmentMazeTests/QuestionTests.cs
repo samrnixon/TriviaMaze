@@ -11,13 +11,5 @@ namespace EntertainmentMazeTests
     [TestClass]
     public class QuestionTests
     {
-        [TestMethod]
-        public void ConnectionToDatabase_Successful()
-        {
-            DatabaseConnection databaseConnection = new DatabaseConnection();
-            List<Question> expectedQuestions = databaseConnection.ReadData();
-
-            Console.WriteLine();
-        }
     }
 }

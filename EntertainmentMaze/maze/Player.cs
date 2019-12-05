@@ -9,6 +9,8 @@ namespace EntertainmentMaze.maze
     {
         private string FirstName { get; set; }
         private string LastName { get; set; }
+        private int[] PlayerLocation = new int[2] { 0, 0 };
+
 
         public Player(string firstName, string lastName)
         {

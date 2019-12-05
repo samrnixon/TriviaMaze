@@ -6,8 +6,8 @@ namespace EntertainmentMaze.maze
 {
     public class MazeBuilder
     {
-        internal Maze Maze = new Maze();
         private bool FinishedBuild = false;
+        internal Maze Maze = new Maze();
 
         public Maze Build()
         {

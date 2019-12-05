@@ -7,11 +7,11 @@ namespace EntertainmentMaze.maze
 {
     public class Question
     {
-        private int questionID { get; }
-        private int answerID { get; }
-        private int typeID { get; }
-        private string question { get; }
-        private string answer { get; }
+        private int QuestionID { get; }
+        private int AnswerID { get; }
+        private int TypeID { get; }
+        public string CurrentQuestion { get; }
+        public string Answer { get; }
 
         private enum QuestionTypes
         {
@@ -22,11 +22,11 @@ namespace EntertainmentMaze.maze
 
         public Question(int questionID, int answerID, int typeID, string question, string answer)
         {
-            this.questionID = questionID;
-            this.answerID = answerID;
-            this.typeID = typeID;
-            this.question = question ?? throw new ArgumentNullException(nameof(question));
-            this.answer = answer ?? throw new ArgumentNullException(nameof(answer));
+            this.QuestionID = questionID;
+            this.AnswerID = answerID;
+            this.TypeID = typeID;
+            this.CurrentQuestion = question ?? throw new ArgumentNullException(nameof(question));
+            this.Answer = answer ?? throw new ArgumentNullException(nameof(answer));
         }
 
         private QuestionTypes GenerateRandomNumberForQuestionTypeValue()

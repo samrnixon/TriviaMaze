@@ -33,11 +33,44 @@ namespace EntertainmentMaze.maze
             {
                 for(int j = 0; j < Columns; j++)
                 {
-                    _Rooms[i,j] = new Room();
+                    _Rooms[i, j] = new Room(i, j, Rows, Columns);
+                    
                 }
             }
         }
 
-        
+        public string PrintMaze()
+        {
+            String entireDungeon = "";
+            int j;
+
+            for (int i = 0; i < Rows; i++)
+            {
+
+                for (j = 0; j < Columns; j++)
+                {
+                    entireDungeon += _Rooms[i,j].GetTopOfRoom();
+                }
+
+                entireDungeon += "\n";
+
+                for (j = 0; j < Columns; j++)
+                {
+                    entireDungeon += _Rooms[i, j].GetMiddleOfRoom();
+                }
+
+                entireDungeon += "\n";
+
+                for (j = 0; j < Columns; j++)
+                {
+                    entireDungeon += _Rooms[i, j].GetBottomOfRoom();
+                }
+
+                entireDungeon += "\n";
+
+            }
+
+            return entireDungeon;
+        }
     }
 }
