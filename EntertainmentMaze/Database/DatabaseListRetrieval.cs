@@ -17,10 +17,11 @@ namespace EntertainmentMaze.Database
 
         //NEED TO MAKE DYNAMIC
         private static readonly string connectionString = @"Data Source = C:\Users\Sam\source\repos\TriviaMaze_cs\TriviaMaze\EntertainmentMaze\bin\TriviaDatabase.db;";
+        private static readonly string connectionString = @"Data Source = X:\Documents\Repos\EntertainmentMaze\TriviaMaze\EntertainmentMaze\bin\TriviaDatabase.db;";
         private static readonly string cmdString = "SELECT * FROM QUESTION;";
 
-        public static List<Question> ReadData()
-        { 
+        private static List<Question> ReadData()
+        {
             List<Question> questionCollection = new List<Question>();
 
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))

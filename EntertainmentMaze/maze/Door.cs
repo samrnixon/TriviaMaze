@@ -8,17 +8,17 @@ namespace EntertainmentMaze.maze
 {
     public class Door
     {
-        private Question _Question;
-        private string questionString;
-        private string answerString;
-        private bool _IsLocked { get; }
+        private Question Question { get; }
+        private bool IsLocked { get; }
+        private string QuestionString { get; }
+        private string AnswerString { get; }
 
         public Door()
         {
-            _Question = GetRandomQuestion();
-            questionString = _Question.question;
-            answerString = _Question.answer;
-            _IsLocked = false;
+            Question = GetRandomQuestion();
+            QuestionString = Question.CurrentQuestion;
+            AnswerString = Question.Answer;
+            IsLocked = false;
         }
 
         private Question GetRandomQuestion()
@@ -33,12 +33,12 @@ namespace EntertainmentMaze.maze
 
         public string DisplayQuestion()
         {
-            return ($"{_Question.question.ToString()}");
+            return ($"{Question.CurrentQuestion.ToString()}");
         }
 
         public string DisplayAnswer()
         {
-            return ($"{_Question.answer.ToString()}");
+            return ($"{Question.Answer.ToString()}");
         }
 
     }

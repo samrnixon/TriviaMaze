@@ -11,6 +11,7 @@ namespace EntertainmentMaze
         public static void Main()
         {
             DisplayGreeting();
+
             DatabaseListRetrieval.InitializeList();
             var mazeBuilder = new MazeBuilder();
             newPlayer = new Player(Player.GetName("FirstName"), Player.GetName("LastName"));
