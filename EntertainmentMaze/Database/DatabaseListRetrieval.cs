@@ -6,28 +6,21 @@ using System.IO;
 
 namespace EntertainmentMaze.Database
 {
-    public class DatabaseConnection
+    public class DatabaseListRetrieval
     {
+        public static List<Question> ListOfQuestions;
+
+        public static void InitializeList()
+        {
+            ListOfQuestions = ReadData();
+        }
+
         //NEED TO MAKE DYNAMIC
         private static readonly string connectionString = @"Data Source = C:\Users\Sam\source\repos\TriviaMaze_cs\TriviaMaze\EntertainmentMaze\bin\TriviaDatabase.db;";
         private static readonly string cmdString = "SELECT * FROM QUESTION;";
-        public SQLiteConnection GetConnection()
-        {
-            SQLiteConnection sqlite_conn = new SQLiteConnection("Data Source=TriviaDatabase.db");
 
-            try
-            {
-                sqlite_conn.Open();
-                return sqlite_conn;
-            }
-            catch(Exception)
-            {
-                throw new ArgumentException(nameof(sqlite_conn));
-            }
-        }
-
-        public List<Question> ReadData()
-        {
+        public static List<Question> ReadData()
+        { 
             List<Question> questionCollection = new List<Question>();
 
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))

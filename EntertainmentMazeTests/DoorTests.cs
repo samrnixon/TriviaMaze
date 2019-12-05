@@ -2,17 +2,32 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using EntertainmentMaze.maze;
+using EntertainmentMaze.Database;
 
 namespace EntertainmentMazeTests
 {
     [TestClass]
-    internal class DoorTests
+    public class DoorTests
     {
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void MyTestMethod()
+/*        [TestMethod]
+        public void Door_ConstructorSuccessfullyMakesDoor_CorrectQuestionDisplayed()
         {
-            
+            Door door = new Door();
+            Assert.AreEqual("How many oscars did the Titanic movie got?", door.DisplayQuestion());
+        }*/
+
+        [TestMethod]
+        public void Door_MakesMultipleDoorsWithoutRepeatingQuestions_Success()
+        {
+            List<string> usedQuestions = new List<string>();
+            DatabaseListRetrieval connection = new DatabaseListRetrieval();
+
+            Door nDoor = new Door();
+            Door sDoor = new Door();
+
+            Assert.IsFalse(nDoor.DisplayQuestion().Equals(sDoor.DisplayQuestion()));
         }
+
     }
 }

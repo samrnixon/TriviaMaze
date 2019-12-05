@@ -10,8 +10,8 @@ namespace EntertainmentMaze.maze
         private int questionID { get; }
         private int answerID { get; }
         private int typeID { get; }
-        private string question { get; }
-        private string answer { get; }
+        public string question { get; }
+        public string answer { get; }
 
         private enum QuestionTypes
         {
