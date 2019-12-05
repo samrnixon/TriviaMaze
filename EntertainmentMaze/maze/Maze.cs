@@ -7,8 +7,15 @@ namespace EntertainmentMaze.maze
 {
     public class Maze
     {
+        private enum Location
+        {
+            Row = 0,
+            Column = 1
+        }
+        
         private Room[,] _Rooms;
         public Player Player { get; set; }
+        private int[] PlayerLocation = new int[2];
         public int Rows { get; set; }
         public int Columns { get; set; }
 
@@ -26,6 +33,7 @@ namespace EntertainmentMaze.maze
         public void CompleteBuild()
         {
             BuildRooms();
+            SetHeroLocation(0, 0);
         }
 
         private void BuildRooms()
@@ -39,6 +47,53 @@ namespace EntertainmentMaze.maze
                 }
             }
         }
+
+        private void SetHeroLocation(int rowLocation, int columnLocation)
+        {
+            PlayerLocation[(int)Location.Row] = rowLocation;
+            PlayerLocation[(int)Location.Column] = columnLocation;
+        }
+
+        public void MoveHero(String direction)
+        {
+
+            var currentRoomHeroLocatedIn = _Rooms[PlayerLocation[(int)Location.Row], PlayerLocation[(int)Location.Column]];
+
+            if (direction == "N")
+            {
+                if (!(currentRoomHeroLocatedIn.NorthDoor is null))
+                {
+                    SetHeroLocation(PlayerLocation[(int)Location.Row] - 1, PlayerLocation[(int)Location.Column]);
+                }
+            }
+            else if (direction == "E")
+            {
+                if (!(currentRoomHeroLocatedIn.EastDoor is null))
+                {
+                    SetHeroLocation(PlayerLocation[(int)Location.Row], PlayerLocation[(int)Location.Column] + 1);
+                }
+            }
+            else if (direction == "S")
+            {
+                if (!(currentRoomHeroLocatedIn.SouthDoor is null))
+                {
+                    SetHeroLocation(PlayerLocation[(int)Location.Row] + 1, PlayerLocation[(int)Location.Column]);
+                }
+            }
+            else if (direction == "W")
+            {
+                if (!(currentRoomHeroLocatedIn.WestDoor is null))
+                {
+                    SetHeroLocation(PlayerLocation[(int)Location.Row], PlayerLocation[(int)Location.Column] - 1);
+                }
+            }
+
+        }
+
+        internal void DisplayHeroLocation()
+        {
+            Console.WriteLine($"{PlayerLocation[(int)Location.Row].ToString()}, {PlayerLocation[(int)Location.Column].ToString()}");
+        } 
 
         public string PrintMaze()
         {

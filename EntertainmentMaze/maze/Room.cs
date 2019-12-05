@@ -6,15 +6,16 @@ namespace EntertainmentMaze.maze
 {
     internal class Room
     {
-        private Door NorthDoor = new Door();
-        private Door EastDoor = new Door();
-        private Door SouthDoor = new Door();
-        private Door WestDoor = new Door();
+        internal Door NorthDoor { get; set; } = new Door(); 
+        internal Door EastDoor { get; set; } = new Door();
+        internal Door SouthDoor { get; set; } = new Door();
+        internal Door WestDoor { get; set; } = new Door();
 
         public List<Door> ListOfDoors;
 
         public int RowLocation { get; }
         public int ColumnLocation { get; }
+        public int[] PlayerLocation { get; }
 
         public Room(int rowLocation, int columnLocation, int numberOfTotalRows, int numberOfTotalColumns)
         {

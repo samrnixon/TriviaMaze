@@ -7,7 +7,7 @@ namespace EntertainmentMaze
     public class Program
     {
         internal static Player newPlayer;
-
+        public static Maze playerMaze;
         public static void Main()
         {
             DisplayGreeting();
@@ -15,7 +15,7 @@ namespace EntertainmentMaze
             DatabaseListRetrieval.InitializeList();
             var mazeBuilder = new MazeBuilder();
             newPlayer = new Player(Player.GetName("FirstName"), Player.GetName("LastName"));
-            Maze playerMaze = mazeBuilder
+            playerMaze = mazeBuilder
                 .SetRows(5)
                 .SetColumns(5)
                 .SetPlayer(newPlayer)
@@ -72,6 +72,7 @@ namespace EntertainmentMaze
                 int selection;
                 do
                 {
+                    Console.WriteLine(playerMaze.PrintMaze());
                     Console.WriteLine("Where would you like to go?");
                     Console.WriteLine(" 1. Go North");
                     Console.WriteLine(" 2. Go East");
@@ -91,26 +92,26 @@ namespace EntertainmentMaze
                 switch (selection)
                 {
                     case 1:
-                        //Ask question, if correct then move north
-                        newPlayer.PlayerControlNorth();
+                        //Ask question, if correct then move North
+                        playerMaze.MoveHero("N");
                         break;
                     case 2:
                         //Ask question, if correct then move East
-                        newPlayer.PlayerControlEast();
+                        playerMaze.MoveHero("E");
                         break;
                     case 3:
                         //Ask question, if correct then move South
-                        newPlayer.PlayerControlSouth();
+                        playerMaze.MoveHero("S");
                         break;
                     case 4:
                         //Ask question, if correct then move West
-                        newPlayer.PlayerControlWest();
+                        playerMaze.MoveHero("W");
                         break;
                     case 5:
                         //Save game
                         break;
                     case 6:
-                        newPlayer.DisplayLocation();
+                        playerMaze.DisplayHeroLocation();
                         break;
                     default:
                         return;

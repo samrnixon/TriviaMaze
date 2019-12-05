@@ -9,10 +9,6 @@ namespace EntertainmentMaze.maze
     {
         private string FirstName { get; set; }
         private string LastName { get; set; }
-        private int[] PlayerLocation = new int[2] { 0, 0 };
-
-
-        private int[] playerLocation = new int[2] { 0, 0 };
 
         public Player(string firstName, string lastName)
         {
@@ -61,56 +57,6 @@ namespace EntertainmentMaze.maze
             }
 
             return null;
-        }
-
-        public void PlayerControlNorth()
-        {
-            //TODO check if movement is possible, basically is the door there locked, and is it a blank wall
-            if (playerLocation[0] == 0)
-            {
-                //Wall!
-                Console.WriteLine("WALL!");
-                return;
-            }
-
-            playerLocation[0] -= 1;
-        }
-        public void PlayerControlEast()
-        {
-            //TODO check if movement is possible, basically is the door there locked, and is it a blank wall
-            if(playerLocation[1] == 4)
-            {
-                //Wall!
-                return;
-            }
-
-            playerLocation[1] += 1;
-        }
-        public void PlayerControlSouth()
-        {
-            //TODO check if movement is possible, basically is the door there locked, and is it a blank wall
-            if(playerLocation[0] == 4)
-            {
-                //Wall!
-                return;
-            }
-
-            playerLocation[0] += 1;
-        }
-        public void PlayerControlWest()
-        {
-            //TODO check if movement is possible, basically is the door there locked, and is it a blank wall
-            if (playerLocation[1] == 0)
-            {
-                //Wall!
-                return;
-            }
-
-            playerLocation[1] -= 1;
-        }
-        internal void DisplayLocation()
-        {
-            Console.WriteLine($"{playerLocation[0].ToString()}, {playerLocation[1].ToString()}");
         }
 
 
