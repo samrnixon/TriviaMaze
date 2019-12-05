@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EntertainmentMaze.Database;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,6 +11,7 @@ namespace EntertainmentMaze.maze
         public Player Player { get; set; }
         public int Rows { get; set; }
         public int Columns { get; set; }
+
         public static MazeBuilder CreateBuilder() => new MazeBuilder();
 
         public Maze(int rows, int columns, Player player)
@@ -31,10 +33,9 @@ namespace EntertainmentMaze.maze
             _Rooms = new Room[Rows, Columns];
             for (int i = 0; i < Rows; i++)
             {
-                for(int j = 0; j < Columns; j++)
+                for (int j = 0; j < Columns; j++)
                 {
                     _Rooms[i, j] = new Room(i, j, Rows, Columns);
-                    
                 }
             }
         }

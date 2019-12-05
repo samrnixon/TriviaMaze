@@ -10,6 +10,7 @@ namespace EntertainmentMaze.maze
         private Door EastDoor = new Door();
         private Door SouthDoor = new Door();
         private Door WestDoor = new Door();
+
         public List<Door> ListOfDoors;
 
         public int RowLocation { get; }

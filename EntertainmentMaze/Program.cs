@@ -6,20 +6,116 @@ namespace EntertainmentMaze
 {
     public class Program
     {
+        internal static Player newPlayer;
+
         public static void Main()
         {
+            DisplayGreeting();
+
             DatabaseListRetrieval.InitializeList();
             var mazeBuilder = new MazeBuilder();
-            var newPlayer = new Player(Player.GetName("FirstName"), Player.GetName("LastName"));
+            newPlayer = new Player(Player.GetName("FirstName"), Player.GetName("LastName"));
             Maze playerMaze = mazeBuilder
                 .SetRows(5)
                 .SetColumns(5)
                 .SetPlayer(newPlayer)
                 .Build();
 
-            Console.WriteLine(playerMaze.PrintMaze());
-
+            Menu();
         }
 
+        private static void DisplayGreeting()
+        {
+            Console.WriteLine();
+            Console.WriteLine("-----------------------------------------\n");
+            Console.WriteLine("Welcome to the Entertainment Trivia Maze!\n");
+            Console.WriteLine("-----------------------------------------");
+        }
+        private static void Menu()
+        {
+            while (true)
+            {
+                int selection;
+                do
+                {
+                    Console.WriteLine("-----------------------------------------");
+                    Console.WriteLine("MAIN MENU\n");
+                    Console.WriteLine(" 1. Play");
+                    Console.WriteLine(" 2. Load Game");
+                    Console.WriteLine(" 3. Quit");
+                    Console.WriteLine("-----------------------------------------\n");
+
+                    if (!int.TryParse(Console.ReadLine(), out selection))
+                    {
+                        selection = 0;
+                    }
+                } while (selection == 0);
+
+                switch (selection)
+                {
+                    case 1:
+                        InGameMenu();
+                        break;
+                    case 2:
+                        //Display Saves? Not sure if thats how saves work.
+                        break;
+                    default:
+                        return;
+                }
+            }
+        }
+
+        private static void InGameMenu()
+        {
+            while (true)
+            {
+                int selection;
+                do
+                {
+                    Console.WriteLine("Where would you like to go?");
+                    Console.WriteLine(" 1. Go North");
+                    Console.WriteLine(" 2. Go East");
+                    Console.WriteLine(" 3. Go South");
+                    Console.WriteLine(" 4. Go West");
+                    Console.WriteLine(" 5. Save Game");
+                    Console.WriteLine(" 6. Display Player Location (x,y)");
+                    Console.WriteLine(" 7. Quit to Main Menu");
+                    Console.WriteLine("-----------------------------------------\n");
+
+                    if (!int.TryParse(Console.ReadLine(), out selection))
+                    {
+                        selection = 0;
+                    }
+                } while (selection == 0);
+
+                switch (selection)
+                {
+                    case 1:
+                        //Ask question, if correct then move north
+                        newPlayer.PlayerControlNorth();
+                        break;
+                    case 2:
+                        //Ask question, if correct then move East
+                        newPlayer.PlayerControlEast();
+                        break;
+                    case 3:
+                        //Ask question, if correct then move South
+                        newPlayer.PlayerControlSouth();
+                        break;
+                    case 4:
+                        //Ask question, if correct then move West
+                        newPlayer.PlayerControlWest();
+                        break;
+                    case 5:
+                        //Save game
+                        break;
+                    case 6:
+                        newPlayer.DisplayLocation();
+                        break;
+                    default:
+                        return;
+                }
+            }
+        }
     }
 }
