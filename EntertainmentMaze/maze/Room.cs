@@ -4,9 +4,9 @@ using System.Text;
 
 namespace EntertainmentMaze.maze
 {
-    internal class Room
+    public class Room
     {
-        internal Door NorthDoor { get; set; } = new Door(); 
+        internal Door NorthDoor { get; set; } = new Door();
         internal Door EastDoor { get; set; } = new Door();
         internal Door SouthDoor { get; set; } = new Door();
         internal Door WestDoor { get; set; } = new Door();
@@ -22,7 +22,7 @@ namespace EntertainmentMaze.maze
         {
             RowLocation = rowLocation;
             ColumnLocation = columnLocation;
-            
+
             ListOfDoors = new List<Door>()
             {
                 NorthDoor,
@@ -115,8 +115,8 @@ namespace EntertainmentMaze.maze
             {
                 middle += "*";
             }
-
             if(IsPlayerInRoom)
+
             {
                 middle += "P";
             }
@@ -125,7 +125,6 @@ namespace EntertainmentMaze.maze
             {
                 middle += " ";
             }
-            
 
             if (!(EastDoor is null))
             {

@@ -6,10 +6,11 @@ using System.Linq;
 
 namespace EntertainmentMaze.maze
 {
+    [Serializable]
     public class Door
     {
         private Question Question { get; }
-        private bool IsLocked { get; }
+        private bool IsLocked { get; set; }
         private string QuestionString { get; }
         private string AnswerString { get; }
 
@@ -29,6 +30,16 @@ namespace EntertainmentMaze.maze
             Question question = listOfQuestions.ElementAt(r);
 
             return question;
+        }
+
+        public bool GetDoorStatus()
+        {
+            return IsLocked;
+        }
+
+        public void LockDoor()
+        {
+            IsLocked = true;
         }
 
         public string DisplayQuestion()
