@@ -130,13 +130,13 @@ namespace EntertainmentMaze
             }
         }
 
-        public static Maze LoadGame()
+/*        public static Maze LoadGame()
         {
             Source.Position = 0;
             using var reader = new StreamReader(Source, leaveOpen: true);
             string jsonString = reader.ReadToEnd();
             return JsonConvert.DeserializeObject<Maze>(jsonString);
-        }
+        }*/
 
         public static void SaveGame(Maze maze)
         {
