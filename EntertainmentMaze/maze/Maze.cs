@@ -20,7 +20,9 @@ namespace EntertainmentMaze.maze
         public int Columns { get; set; }
 
         public static MazeBuilder CreateBuilder() => new MazeBuilder();
+        private Room GetHeroLocation() => (_Rooms[PlayerLocation[(int)Location.Row], PlayerLocation[(int)Location.Column]]);
 
+        
         public Maze(int rows, int columns, Player player)
         {
             Rows = rows;
@@ -52,12 +54,17 @@ namespace EntertainmentMaze.maze
         {
             PlayerLocation[(int)Location.Row] = rowLocation;
             PlayerLocation[(int)Location.Column] = columnLocation;
+            GetHeroLocation().SetPlayerInRoom();
         }
+
+        
 
         public void MoveHero(String direction)
         {
 
-            var currentRoomHeroLocatedIn = _Rooms[PlayerLocation[(int)Location.Row], PlayerLocation[(int)Location.Column]];
+            var currentRoomHeroLocatedIn = GetHeroLocation();
+
+            GetHeroLocation().RemovePreviousPlayerLocation();
 
             if (direction == "N")
             {
@@ -92,7 +99,7 @@ namespace EntertainmentMaze.maze
 
         internal void DisplayHeroLocation()
         {
-            Console.WriteLine($"{PlayerLocation[(int)Location.Row].ToString()}, {PlayerLocation[(int)Location.Column].ToString()}");
+            Console.WriteLine($"{(PlayerLocation[(int)Location.Row] + 1).ToString()}, {(PlayerLocation[(int)Location.Column] + 1).ToString()}");
         } 
 
         public string PrintMaze()
