@@ -24,7 +24,7 @@ namespace EntertainmentMaze.maze
         public static MazeBuilder CreateBuilder() => new MazeBuilder();
         private Room GetHeroLocation() => (_Rooms[PlayerLocation[(int)Location.Row], PlayerLocation[(int)Location.Column]]);
 
-
+        
         public Maze(int rows, int columns, Player player)
         {
             Rows = rows;
@@ -68,7 +68,6 @@ namespace EntertainmentMaze.maze
             PlayerLocation[(int)Location.Column] = columnLocation;
             GetHeroLocation().SetPlayerInRoom();
         }
-
 
 
         public void MoveHero(String direction)
