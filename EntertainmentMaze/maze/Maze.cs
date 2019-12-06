@@ -24,7 +24,14 @@ namespace EntertainmentMaze.maze
         public static MazeBuilder CreateBuilder() => new MazeBuilder();
         private Room GetHeroLocation() => (_Rooms[PlayerLocation[(int)Location.Row], PlayerLocation[(int)Location.Column]]);
 
-        
+        private int MoveRowUp() => PlayerLocation[(int)Location.Row] - 1;
+        private int MoveRowDown() => PlayerLocation[(int)Location.Row] + 1;
+        private int MoveColumnLeft() => PlayerLocation[(int)Location.Column] - 1;
+        private int MoveColumnRight() => PlayerLocation[(int)Location.Column] + 1;
+        private int SameRow() => PlayerLocation[(int)Location.Row];
+        private int SameColumn() => PlayerLocation[(int)Location.Column];
+
+
         public Maze(int rows, int columns, Player player)
         {
             Rows = rows;
@@ -73,41 +80,39 @@ namespace EntertainmentMaze.maze
         public void MoveHero(String direction)
         {
 
-            var currentRoomHeroLocatedIn = GetHeroLocation();
-
-            if (direction == "N")
+            switch (direction)
             {
-                if (!(currentRoomHeroLocatedIn.NorthDoor is null))
-                {
-                    GetHeroLocation().RemovePreviousPlayerLocation();
-                    SetHeroLocation(PlayerLocation[(int)Location.Row] - 1, PlayerLocation[(int)Location.Column]);
-                }
+                case "N":
+                    if (!(GetHeroLocation().NorthDoor is null))
+                    {
+                        GetHeroLocation().RemovePreviousPlayerLocation();
+                        SetHeroLocation(MoveRowUp(), SameColumn());
+                    }
+                    return;
+                case "E":
+                    if (!(GetHeroLocation().EastDoor is null))
+                    {
+                        GetHeroLocation().RemovePreviousPlayerLocation();
+                        SetHeroLocation(SameRow(), MoveColumnRight());
+                    }
+                    return;
+                case "S":
+                    if (!(GetHeroLocation().SouthDoor is null))
+                    {
+                        GetHeroLocation().RemovePreviousPlayerLocation();
+                        SetHeroLocation(MoveRowDown(), SameColumn());
+                    }
+                    return;
+                case "W":
+                    if (!(GetHeroLocation().WestDoor is null))
+                    {
+                        GetHeroLocation().RemovePreviousPlayerLocation();
+                        SetHeroLocation(SameRow(), MoveColumnLeft());
+                    }
+                    return;
+                default:
+                    return;
             }
-            else if (direction == "E")
-            {
-                if (!(currentRoomHeroLocatedIn.EastDoor is null))
-                {
-                    GetHeroLocation().RemovePreviousPlayerLocation();
-                    SetHeroLocation(PlayerLocation[(int)Location.Row], PlayerLocation[(int)Location.Column] + 1);
-                }
-            }
-            else if (direction == "S")
-            {
-                if (!(currentRoomHeroLocatedIn.SouthDoor is null))
-                {
-                    GetHeroLocation().RemovePreviousPlayerLocation();
-                    SetHeroLocation(PlayerLocation[(int)Location.Row] + 1, PlayerLocation[(int)Location.Column]);
-                }
-            }
-            else if (direction == "W")
-            {
-                if (!(currentRoomHeroLocatedIn.WestDoor is null))
-                {
-                    GetHeroLocation().RemovePreviousPlayerLocation();
-                    SetHeroLocation(PlayerLocation[(int)Location.Row], PlayerLocation[(int)Location.Column] - 1);
-                }
-            }
-
         }
 
         internal void DisplayHeroLocation()

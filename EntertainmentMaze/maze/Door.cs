@@ -11,6 +11,7 @@ namespace EntertainmentMaze.maze
     {
         private Question Question { get; }
         private bool IsLocked { get; set; }
+        private bool IsOpened { get; set; }
         private string QuestionString { get; }
         private string AnswerString { get; }
 
@@ -36,6 +37,15 @@ namespace EntertainmentMaze.maze
         {
             return IsLocked;
         }
+        internal bool GetDoorOpenedStatus()
+        {
+            return IsOpened;
+        }
+
+        public void OpenDoor()
+        {
+            IsOpened = true;
+        }
 
         public void LockDoor()
         {
@@ -51,6 +61,5 @@ namespace EntertainmentMaze.maze
         {
             return ($"{Question.Answer.ToString()}");
         }
-
     }
 }
