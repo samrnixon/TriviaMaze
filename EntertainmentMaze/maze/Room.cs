@@ -4,6 +4,7 @@ using System.Text;
 
 namespace EntertainmentMaze.maze
 {
+    [Serializable]
     public class Room
     {
         internal Door NorthDoor { get; set; } = new Door();
