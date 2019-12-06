@@ -4,9 +4,9 @@ using System.Text;
 
 namespace EntertainmentMaze.maze
 {
-    internal class Room
+    public class Room
     {
-        internal Door NorthDoor { get; set; } = new Door(); 
+        internal Door NorthDoor { get; set; } = new Door();
         internal Door EastDoor { get; set; } = new Door();
         internal Door SouthDoor { get; set; } = new Door();
         internal Door WestDoor { get; set; } = new Door();
@@ -15,13 +15,14 @@ namespace EntertainmentMaze.maze
 
         public int RowLocation { get; }
         public int ColumnLocation { get; }
-        public int[] PlayerLocation { get; }
+
+        private bool IsPlayerInRoom { get; set; } = false;
 
         public Room(int rowLocation, int columnLocation, int numberOfTotalRows, int numberOfTotalColumns)
         {
             RowLocation = rowLocation;
             ColumnLocation = columnLocation;
-            
+
             ListOfDoors = new List<Door>()
             {
                 NorthDoor,
@@ -31,6 +32,16 @@ namespace EntertainmentMaze.maze
             };
 
             CreateRoomDescription(numberOfTotalRows, numberOfTotalColumns);
+        }
+
+        public void SetPlayerInRoom()
+        {
+            IsPlayerInRoom = true;
+        }
+
+        public void RemovePreviousPlayerLocation()
+        {
+            IsPlayerInRoom = false;
         }
 
         private void CreateRoomDescription(int numberOfTotalRows, int numberOfTotalColumns)
@@ -60,7 +71,7 @@ namespace EntertainmentMaze.maze
             }
 
             //Room in the last row
-            else if (RowLocation == (numberOfTotalColumns - 1))
+            else if (RowLocation == (numberOfTotalRows - 1))
             {
                 SouthDoor = null;
                 if (ColumnLocation == (numberOfTotalRows - 1))
@@ -70,7 +81,7 @@ namespace EntertainmentMaze.maze
             }
 
             //Room in the last column
-            else if (ColumnLocation == (numberOfTotalRows - 1) && (RowLocation == (numberOfTotalColumns - 1)))
+            else if (ColumnLocation == (numberOfTotalColumns - 1))
             {
                 EastDoor = null;
             }
@@ -105,7 +116,16 @@ namespace EntertainmentMaze.maze
                 middle += "*";
             }
 
-            middle += " ";
+            if (IsPlayerInRoom)
+            {
+                middle += "P";
+            }
+
+            else
+            {
+                middle += " ";
+            }
+
 
             if (!(EastDoor is null))
             {

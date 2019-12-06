@@ -5,6 +5,7 @@ using System.Text;
 
 namespace EntertainmentMaze.maze
 {
+    [Serializable]
     public class Question
     {
         private int QuestionID { get; }

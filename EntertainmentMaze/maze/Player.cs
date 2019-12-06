@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace EntertainmentMaze.maze
 {
+    [Serializable]
     public class Player
     {
         private string FirstName { get; set; }
