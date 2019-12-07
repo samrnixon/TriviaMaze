@@ -7,14 +7,14 @@ using System.Text;
 namespace EntertainmentMaze.maze
 {
     [DataContract]
-    public class Maze //: ISerializable
+    public class Maze
     {
         private enum Location
         {
             Row = 0,
             Column = 1
         }
-        //[DataMember]
+
         private Room[,] _Rooms;
         [DataMember]
         public Player _Player { get; set; }
@@ -26,9 +26,8 @@ namespace EntertainmentMaze.maze
         public int Columns { get; set; }
         [DataMember]
         private Room[][] surrogateArray;
-
-        public static MazeBuilder CreateBuilder() => new MazeBuilder();
         private Room GetHeroLocation() => (_Rooms[PlayerLocation[(int)Location.Row], PlayerLocation[(int)Location.Column]]);
+        private Room ExitLocationOfMaze() => (_Rooms[Rows - 1, Columns - 1]);
 
         private int MoveRowUp() => PlayerLocation[(int)Location.Row] - 1;
         private int MoveRowDown() => PlayerLocation[(int)Location.Row] + 1;
@@ -36,14 +35,6 @@ namespace EntertainmentMaze.maze
         private int MoveColumnRight() => PlayerLocation[(int)Location.Column] + 1;
         private int SameRow() => PlayerLocation[(int)Location.Row];
         private int SameColumn() => PlayerLocation[(int)Location.Column];
-
-
-        public Maze(int rows, int columns, Player player)
-        {
-            Rows = rows;
-            Columns = columns;
-            _Player = player;
-        }
 
         public Maze() { }
 
@@ -70,21 +61,21 @@ namespace EntertainmentMaze.maze
             return GetHeroLocation();
         }
 
+        public void SetCheatLocation()
+        {
+            _Rooms[PlayerLocation[0], PlayerLocation[1]].RemovePreviousPlayerLocation();
+            PlayerLocation[0] = 4;
+            PlayerLocation[1] = 3;
+            _Rooms[PlayerLocation[0], PlayerLocation[1]].SetPlayerInRoom();
+        }
+
+        public Room GetExitLocationOfMaze() => ExitLocationOfMaze();
+
         private void SetHeroLocation(int rowLocation, int columnLocation)
         {
             PlayerLocation[(int)Location.Row] = rowLocation;
             PlayerLocation[(int)Location.Column] = columnLocation;
             GetHeroLocation().SetPlayerInRoom();
-        }
-
-        public int GetRows()
-        {
-            return Rows;
-        }
-
-        public int GetColumns()
-        {
-            return Columns;
         }
 
         public void MoveHero(String direction)
