@@ -81,12 +81,12 @@ namespace EntertainmentMaze.maze
         {
             return Rows;
         }
-
+        
         public int GetColumns()
         {
             return Columns;
         }
-
+        
         public void MoveHero(String direction)
         {
 
