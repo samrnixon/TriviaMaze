@@ -8,6 +8,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Xml;
 using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
 namespace EntertainmentMaze
@@ -16,10 +17,9 @@ namespace EntertainmentMaze
     {
         internal static Player newPlayer;
         public static Maze playerMaze;
-        public static string SaveFile = "GameSaves.json";
         internal static IFormatter formatter = new BinaryFormatter();
         private static string PlayResumeMenuOption = "Play";
-        private static Stream _Source;
+        private static int SaveCounter = 0;
 
         public static void Main()
         {
@@ -70,7 +70,8 @@ namespace EntertainmentMaze
                         InGameMenu();
                         break;
                     case 2:
-                        //LoadGame();
+                        playerMaze = LoadGame();
+                        Console.WriteLine("\nGame Loaded! Select Resume to continue your saved game.\n");
                         break;
                     default:
                         return;
@@ -118,7 +119,8 @@ namespace EntertainmentMaze
                         PlayerControl.MovementAttempt(playerMaze, "W");
                         break;
                     case 5:
-                        //SaveGame(playerMaze);
+                        SaveGame(playerMaze);
+                        Console.WriteLine("Game Saved!\n");
                         break;
                     case 6:
                         playerMaze.DisplayHeroLocation();
@@ -129,49 +131,61 @@ namespace EntertainmentMaze
                 }
             }
         }
-
-/*        public static Maze LoadGame()
+      
+        private static string LoadOptions()
         {
-            Source.Position = 0;
-            using var reader = new StreamReader(Source, leaveOpen: true);
-            string jsonString = reader.ReadToEnd();
-            return JsonConvert.DeserializeObject<Maze>(jsonString);
-        }*/
+            Console.WriteLine("Which Save would you like to Load?");
+            Console.WriteLine($"Type the number from 0-{SaveCounter-1} to choose your desired save.");
+
+            for (int x = 0; x < SaveCounter; x++)
+            {
+                Console.WriteLine($"{x}. GameSave{x}");
+            }
+
+            int entry;
+            
+            while (!int.TryParse(Console.ReadLine(), out entry) || entry > SaveCounter || entry < 0)
+            {
+                Console.WriteLine("Please enter a valid save number: ");
+            }
+
+            string saveFile = $"GameSave{entry}.xml";
+
+            return saveFile;
+        }
+
+        public static Maze LoadGame()
+        {
+            if (SaveCounter == 0)
+            {
+                Console.WriteLine("You do not have any saves yet!");
+                return playerMaze;
+            }
+            else
+            {
+                string saveFileName = LoadOptions();
+
+                FileStream fs = new FileStream(saveFileName, FileMode.Open);
+                XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());
+                DataContractSerializer serialized = new DataContractSerializer(typeof(Maze));
+                playerMaze = (Maze)serialized.ReadObject(reader, true);
+                reader.Close();
+                fs.Close();
+
+                return playerMaze;
+            }
+        }
 
         public static void SaveGame(Maze maze)
         {
             var serializer = new JsonSerializer();
-
-            using (var sw = new StreamWriter(SaveFile))
-            using (JsonWriter writer = new JsonTextWriter(sw))
-            {
-                serializer.Serialize(writer, maze);
-            }
+            string SaveFile = $"GameSave{SaveCounter}.xml";
+            SaveCounter++;
+            FileStream writer = new FileStream(SaveFile, FileMode.Create);
+            DataContractSerializer serialized = new DataContractSerializer(typeof(Maze));
+            serialized.WriteObject(writer, playerMaze);
+            writer.Close();
         }
-/*
-        public static Maze DataLoader(string filePath)
-        {
-            var serializer = new JsonSerializer();
 
-            using (var sw = new StreamReader(filePath))
-            using (var reader = new JsonTextReader(sw))
-            {
-                return serializer.Deserialize(reader);
-            }
-        }*/
-
-        /*        public static void SerializeItem(string fileName, IFormatter formatter)
-                {
-                    FileStream s = new FileStream(fileName, FileMode.Create);
-                    formatter.Serialize(s, playerMaze);
-                    s.Close();
-                }
-
-
-                public static void DeserializeItem(string fileName, IFormatter formatter)
-                {
-                    FileStream s = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-                    playerMaze = (Maze)formatter.Deserialize(s);
-                }*/
     }
 }
