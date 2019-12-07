@@ -6,20 +6,26 @@ using System.Text;
 
 namespace EntertainmentMaze.maze
 {
-    [Serializable]
-    public class Maze : ISerializable
+    [DataContract]
+    public class Maze //: ISerializable
     {
         private enum Location
         {
             Row = 0,
             Column = 1
         }
-
+        //[DataMember]
         private Room[,] _Rooms;
-        public Player Player { get; set; }
+        [DataMember]
+        public Player _Player { get; set; }
+        [DataMember]
         private int[] PlayerLocation = new int[2];
+        [DataMember]
         public int Rows { get; set; }
+        [DataMember]
         public int Columns { get; set; }
+        [DataMember]
+        private Room[][] surrogateArray;
 
         public static MazeBuilder CreateBuilder() => new MazeBuilder();
         private Room GetHeroLocation() => (_Rooms[PlayerLocation[(int)Location.Row], PlayerLocation[(int)Location.Column]]);
@@ -36,7 +42,7 @@ namespace EntertainmentMaze.maze
         {
             Rows = rows;
             Columns = columns;
-            Player = player;
+            _Player = player;
         }
 
         public Maze() { }
@@ -59,11 +65,6 @@ namespace EntertainmentMaze.maze
             }
         }
 
-    /*        public Room[,] GetRooms()
-            {
-                return this._Rooms;
-            }*/
-
         public Room GetLocation()
         {
             return GetHeroLocation();
@@ -76,7 +77,15 @@ namespace EntertainmentMaze.maze
             GetHeroLocation().SetPlayerInRoom();
         }
 
+        public int GetRows()
+        {
+            return Rows;
+        }
 
+        public int GetColumns()
+        {
+            return Columns;
+        }
 
         public void MoveHero(String direction)
         {
@@ -155,71 +164,60 @@ namespace EntertainmentMaze.maze
             return entireDungeon;
         }
 
-    public void GetObjectData(SerializationInfo info, StreamingContext context)
+        //BeforeSerializing() and AfterSerializing() from 
+        //https://social.msdn.microsoft.com/Forums/vstudio/en-US/ff233917-eabf-47a3-8127-55fac4188b94/define-double-as-datamember?forum=wcf
+
+        [OnSerializing]
+        public void BeforeSerializing(StreamingContext ctx)
         {
-            info.AddValue("_Rooms", _Rooms, typeof(Room[,]));
-            info.AddValue("Player", Player, typeof(Player));
-            info.AddValue("PlayerLocation", PlayerLocation, typeof(int[]));
-            info.AddValue("Rows", Rows, typeof(int));
-            info.AddValue("Columns", Columns, typeof(int));
+            int rows = _Rooms.GetLength(0);
+            int cols = _Rooms.GetLength(1);
+            this.surrogateArray = new Room[rows][];
+            for (int i = 0; i < rows; i++)
+            {
+                this.surrogateArray[i] = new Room[cols];
+                for (int j = 0; j < cols; j++)
+                {
+                    this.surrogateArray[i][j] = _Rooms[i, j];
+                }
+            }
         }
 
         [OnDeserialized]
-        private void OnDeserialization(SerializationInfo info, StreamingContext context)
+        public void AfterDeserializing(StreamingContext ctx)
         {
-            _Rooms = (Room[,])info.GetValue("_Rooms", typeof(Room[,]));
-            Player = (Player)info.GetValue("Player", typeof(Player));
-            PlayerLocation = (int[])info.GetValue("props", typeof(int[]));
-            Rows = (int)info.GetValue("Rows", typeof(int));
-            Columns = (int)info.GetValue("Columns", typeof(int));
-        }
-
-
-
-
-/*        public Maze Load()
-        {
-            Source.Position = 0;
-
-            using var reader = new StreamReader(Source, leaveOpen: true);
-            try
+            if (this.surrogateArray == null)
             {
-                string? jsonData;
-
-                while ((jsonData = reader.ReadLine()) != null)
+                _Rooms = null;
+            }
+            else
+            {
+                int rows = this.surrogateArray.Length;
+                if (rows == 0)
                 {
-                    if (jsonData is "")
+                    _Rooms = new Room[0, 0];
+                }
+                else
+                {
+                    int cols = this.surrogateArray[0].Length;
+                    for (int i = 1; i < rows; i++)
                     {
-                        return mailboxes;
+                        if (this.surrogateArray[i].Length != cols)
+                        {
+                            throw new InvalidOperationException("Surrogate array does not correspond to the original");
+                        }
                     }
-                    mailboxes.Add(JsonConvert.DeserializeObject<Mailbox>(jsonData));
+
+                    _Rooms = new Room[rows, cols];
+                    for (int i = 0; i < rows; i++)
+                    {
+                        for (int j = 0; j < cols; j++)
+                        {
+                            _Rooms[i, j] = this.surrogateArray[i][j];
+                        }
+                    }
                 }
             }
-            catch (JsonReaderException)
-            {
-                return null;
-            }
-
-            reader.Dispose();
-            return mailboxes;
         }
-
-        public void Save(List<Mailbox> mailboxes)
-        {
-            if (mailboxes is null)
-            {
-                throw new ArgumentNullException(nameof(mailboxes));
-            }
-
-            Source.Position = 0;
-            using var writer = new StreamWriter(Source, leaveOpen: true);
-
-            foreach (Mailbox mb in mailboxes)
-            {
-                string data = JsonConvert.SerializeObject(mb);
-                writer.WriteLine(data);
-            }
-            writer.Dispose();
-        }*/
     }
 }

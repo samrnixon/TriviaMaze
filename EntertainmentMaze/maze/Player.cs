@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 
 namespace EntertainmentMaze.maze
 {
-    [Serializable]
+    [DataContract]
     public class Player
     {
+        [DataMember]
         private string FirstName { get; set; }
+        [DataMember]
         private string LastName { get; set; }
 
         public Player(string firstName, string lastName)
@@ -58,6 +61,15 @@ namespace EntertainmentMaze.maze
             }
 
             return null;
+        }
+
+        public string GetFirstName()
+        {
+            return FirstName;
+        }
+        public string GetLastName()
+        {
+            return LastName;
         }
 
 

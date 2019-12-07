@@ -33,7 +33,7 @@ namespace EntertainmentMaze.maze
         public MazeBuilder SetPlayer(Player player)
         {
             Check();
-            Maze.Player = player;
+            Maze._Player = player;
             return this;
         }
 
