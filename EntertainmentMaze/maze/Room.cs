@@ -126,8 +126,8 @@ namespace EntertainmentMaze.maze
             {
                 middle += "*";
             }
+            if(IsPlayerInRoom)
 
-            if (IsPlayerInRoom)
             {
                 middle += "P";
             }
@@ -136,7 +136,6 @@ namespace EntertainmentMaze.maze
             {
                 middle += " ";
             }
-
 
             if (!(EastDoor is null))
             {

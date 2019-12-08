@@ -7,6 +7,14 @@ using System.Runtime.Serialization;
 using System.Xml;
 using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
+/*
+ * There is a cheat enabled.
+ * When asked which direction you would like to go.
+ * Enter "117" and it will take you one door away from the exit.
+ * Must answer next question correctly, if done so you will exit the maze.
+ * Purpose: to get close to the exit and simulate answering the "last" needed question correctly.
+ */
+
 namespace EntertainmentMaze
 {
     public class Program
@@ -93,15 +101,16 @@ namespace EntertainmentMaze
                 do
                 {
                     Console.WriteLine(playerMaze.PrintMaze());
-                    Console.WriteLine("Where would you like to go?");
-                    Console.WriteLine(" 1. Go North");
-                    Console.WriteLine(" 2. Go East");
-                    Console.WriteLine(" 3. Go South");
-                    Console.WriteLine(" 4. Go West");
-                    Console.WriteLine(" 5. Save Game");
-                    Console.WriteLine(" 6. Display Player Location (x,y)");
-                    Console.WriteLine(" 7. Quit to Main Menu");
-                    Console.WriteLine("-----------------------------------------\n");
+                    Console.WriteLine(
+                    "Where would you like to go?\n" +
+                    " 1. Go North\n" +
+                    " 2. Go East\n" +
+                    " 3. Go South\n" +
+                    " 4. Go West\n" +
+                    " 5. Save Game\n" +
+                    " 6. Display Player Location (x,y)\n" +
+                    " 7. Quit to Main Menu\n" +
+                    "-----------------------------------------\n");
 
                     if (!int.TryParse(Console.ReadLine(), out selection))
                     {
@@ -138,6 +147,13 @@ namespace EntertainmentMaze
                         return;
                 }
 
+                if ((playerMaze.IsSolvable() is null))
+                {
+                    Console.WriteLine($"Sorry, {newPlayer.GetFirstName()} {newPlayer.GetLastName()} you have lost!");
+                    Console.WriteLine();
+                    break;
+                }
+
                 if (playerMaze.GetLocation() == playerMaze.GetExitLocationOfMaze())
                 {
                     Console.WriteLine("-----------------------------------------\n");
@@ -157,7 +173,7 @@ namespace EntertainmentMaze
                 }
             }
         }
-
+      
         private static string LoadOptions()
         {
             string curDir = ".\\Saves\\";
