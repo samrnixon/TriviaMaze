@@ -6,8 +6,8 @@ using System.Text;
 
 namespace EntertainmentMaze.maze
 {
-    [DataContract]
-    public class Maze
+    [Serializable]
+    public class Maze : ISerializable
     {
         private enum Location
         {
@@ -16,24 +16,13 @@ namespace EntertainmentMaze.maze
         }
 
         private Room[,] _Rooms;
-        [DataMember]
-        public Player _Player { get; set; }
-        [DataMember]
+        public Player Player { get; set; }
         private int[] PlayerLocation = new int[2];
-        [DataMember]
         public int Rows { get; set; }
-        [DataMember]
         public int Columns { get; set; }
-        [DataMember]
-        private Room[][] surrogateArray;
 
-        private int lastTraversedRow;
-        private int lastTraversedCol;
-        //private bool[,] _Traversed;
-        private List<(int, int)> _Traversed;
-
+        public static MazeBuilder CreateBuilder() => new MazeBuilder();
         private Room GetHeroLocation() => (_Rooms[PlayerLocation[(int)Location.Row], PlayerLocation[(int)Location.Column]]);
-        private Room ExitLocationOfMaze() => (_Rooms[Rows - 1, Columns - 1]);
 
         private int MoveRowUp() => PlayerLocation[(int)Location.Row] - 1;
         private int MoveRowDown() => PlayerLocation[(int)Location.Row] + 1;
@@ -41,6 +30,14 @@ namespace EntertainmentMaze.maze
         private int MoveColumnRight() => PlayerLocation[(int)Location.Column] + 1;
         private int SameRow() => PlayerLocation[(int)Location.Row];
         private int SameColumn() => PlayerLocation[(int)Location.Column];
+
+
+        public Maze(int rows, int columns, Player player)
+        {
+            Rows = rows;
+            Columns = columns;
+            Player = player;
+        }
 
         public Maze() { }
 
@@ -62,186 +59,15 @@ namespace EntertainmentMaze.maze
             }
         }
 
+    /*        public Room[,] GetRooms()
+            {
+                return this._Rooms;
+            }*/
+
         public Room GetLocation()
         {
             return GetHeroLocation();
         }
-
-        internal List<(int,int)> IsSolvable()
-        {
-            _Traversed = new List<(int, int)>(Rows*Columns);
-            _Traversed.Add((SameRow(), SameColumn()));
-
-            if(!FindPath(SameRow(), SameColumn()))
-            {
-                _Traversed.Remove((_Traversed.Capacity-1,_Traversed.Capacity-1));
-            }
-
-            return _Traversed;
-        }
-        private bool FindPath(int playerRowLocation, int playerColumnLocation)
-        {
-/*            if (playerRowLocation < 0 || playerRowLocation >= Rows) return false;
-            if (playerColumnLocation < 0 || playerColumnLocation >= Columns) return false;
-            if (_Rooms[playerRowLocation, playerColumnLocation] == ExitLocationOfMaze()) return true;*/
-
-            for(int x=0; x<4; x++)
-            { 
-                if(x==0)
-                {
-                    if(canTraverse(playerColumnLocation - 1, playerColumnLocation,x))
-                    {
-                        _Traversed.Add((playerColumnLocation - 1, playerColumnLocation));
-
-                    }
-                }
-                if (x == 1)
-                {
-                    if (canTraverse(playerColumnLocation, playerColumnLocation + 1,x))
-                    {
-
-                    }
-                }
-                if (x == 2)
-                {
-                    if (canTraverse(playerColumnLocation + 1, playerColumnLocation,x))
-                    {
-
-                    }
-                }
-                if (x == 3)
-                {
-                    if (canTraverse(playerColumnLocation, playerColumnLocation - 1,x))
-                    {
-
-                    }
-                }
-            }
-
-
-
-            return false;
-
-
-
-
-
-
-
-/*            if (!(_Rooms[playerRowLocation, playerColumnLocation].NorthDoor is null))
-            {
-                if ((_Rooms[playerRowLocation, playerColumnLocation].NorthDoor.GetDoorStatus() is false))
-                {
-                    if (playerRowLocation - 1 == lastTraversedRow && playerColumnLocation == lastTraversedCol)
-                    {
-                        
-                    }
-
-                    lastTraversedRow = playerRowLocation;
-                    lastTraversedCol = playerColumnLocation;
-                    if (FindPath(playerRowLocation - 1, playerColumnLocation))
-                    {
-                        return true;
-                    }
-                }
-
-            }
-            if (!(_Rooms[playerRowLocation, playerColumnLocation].EastDoor is null))
-            {
-                if ((_Rooms[playerRowLocation, playerColumnLocation].EastDoor.GetDoorStatus()) is false)
-                {
-                    if (playerRowLocation == lastTraversedRow && playerColumnLocation + 1 == lastTraversedCol)
-                    {
-
-                    }
-                    lastTraversedRow = playerRowLocation;
-                    lastTraversedCol = playerColumnLocation;
-                    if (FindPath(playerRowLocation, playerColumnLocation + 1))
-                    {
-                        return true;
-                    }
-                }
-
-            }
-            if (!(_Rooms[playerRowLocation, playerColumnLocation].SouthDoor is null))
-            {
-
-                if ((_Rooms[playerRowLocation, playerColumnLocation].SouthDoor.GetDoorStatus()) is false)
-                {
-                    if (playerRowLocation + 1 == lastTraversedRow && playerColumnLocation == lastTraversedCol)
-                    {
-
-                    }
-                    lastTraversedRow = playerRowLocation;
-                    lastTraversedCol = playerColumnLocation;
-                    if (FindPath(playerRowLocation + 1, playerColumnLocation))
-                    {
-                        return true;
-                    }
-                }
-
-            }
-            if (!(_Rooms[playerRowLocation, playerColumnLocation].WestDoor is null))
-            {
-                if ((_Rooms[playerRowLocation, playerColumnLocation].WestDoor.GetDoorStatus()) is false)
-                {
-                    if (playerRowLocation == lastTraversedRow && playerColumnLocation - 1 == lastTraversedCol)
-                    {
-
-                    }
-                    lastTraversedRow = playerRowLocation;
-                    lastTraversedCol = playerColumnLocation;
-                    if (FindPath(playerRowLocation, playerColumnLocation - 1))
-                    {
-                        return true;
-                    }
-                }
-
-            }
-
-            int lTR = lastTraversedRow;
-            int lTC = lastTraversedCol;
-            lastTraversedRow = playerRowLocation;
-            lastTraversedCol = playerColumnLocation;
-            traversable[playerRowLocation, playerColumnLocation] = false;
-            FindPath(lTR, lTC);
-
-            return false;*/
-        }
-
-        private bool canTraverse(int r, int c, int x)
-        {
-            if (r < 0 || r >= Rows) return false;
-            if (c < 0 || c >= Columns) return false;
-
-            if (x == 0)
-            {
-                return ((!(_Rooms[r, c].NorthDoor is null)) && ((_Rooms[r, c].NorthDoor.GetDoorStatus() is false)));
-            }
-            if (x == 1)
-            {
-                return ((!(_Rooms[r, c].EastDoor is null)) && ((_Rooms[r, c].EastDoor.GetDoorStatus() is false)));
-            }
-            if (x == 2)
-            {
-                return ((!(_Rooms[r, c].SouthDoor is null)) && ((_Rooms[r, c].SouthDoor.GetDoorStatus() is false)));
-            }
-            if (x == 3)
-            {
-                return ((!(_Rooms[r, c].WestDoor is null)) && ((_Rooms[r, c].WestDoor.GetDoorStatus() is false)));
-            }
-            return false;
-        }
-
-        public void SetCheatLocation()
-        {
-            _Rooms[PlayerLocation[0], PlayerLocation[1]].RemovePreviousPlayerLocation();
-            PlayerLocation[0] = 4;
-            PlayerLocation[1] = 3;
-            _Rooms[PlayerLocation[0], PlayerLocation[1]].SetPlayerInRoom();
-        }
-
-        public Room GetExitLocationOfMaze() => ExitLocationOfMaze();
 
         private void SetHeroLocation(int rowLocation, int columnLocation)
         {
@@ -249,6 +75,7 @@ namespace EntertainmentMaze.maze
             PlayerLocation[(int)Location.Column] = columnLocation;
             GetHeroLocation().SetPlayerInRoom();
         }
+
 
         public void MoveHero(String direction)
         {
@@ -327,60 +154,71 @@ namespace EntertainmentMaze.maze
             return entireDungeon;
         }
 
-        //BeforeSerializing() and AfterSerializing() from 
-        //https://social.msdn.microsoft.com/Forums/vstudio/en-US/ff233917-eabf-47a3-8127-55fac4188b94/define-double-as-datamember?forum=wcf
-
-        [OnSerializing]
-        public void BeforeSerializing(StreamingContext ctx)
+    public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            int rows = _Rooms.GetLength(0);
-            int cols = _Rooms.GetLength(1);
-            this.surrogateArray = new Room[rows][];
-            for (int i = 0; i < rows; i++)
-            {
-                this.surrogateArray[i] = new Room[cols];
-                for (int j = 0; j < cols; j++)
-                {
-                    this.surrogateArray[i][j] = _Rooms[i, j];
-                }
-            }
+            info.AddValue("_Rooms", _Rooms, typeof(Room[,]));
+            info.AddValue("Player", Player, typeof(Player));
+            info.AddValue("PlayerLocation", PlayerLocation, typeof(int[]));
+            info.AddValue("Rows", Rows, typeof(int));
+            info.AddValue("Columns", Columns, typeof(int));
         }
 
         [OnDeserialized]
-        public void AfterDeserializing(StreamingContext ctx)
+        private void OnDeserialization(SerializationInfo info, StreamingContext context)
         {
-            if (this.surrogateArray == null)
-            {
-                _Rooms = null;
-            }
-            else
-            {
-                int rows = this.surrogateArray.Length;
-                if (rows == 0)
-                {
-                    _Rooms = new Room[0, 0];
-                }
-                else
-                {
-                    int cols = this.surrogateArray[0].Length;
-                    for (int i = 1; i < rows; i++)
-                    {
-                        if (this.surrogateArray[i].Length != cols)
-                        {
-                            throw new InvalidOperationException("Surrogate array does not correspond to the original");
-                        }
-                    }
-
-                    _Rooms = new Room[rows, cols];
-                    for (int i = 0; i < rows; i++)
-                    {
-                        for (int j = 0; j < cols; j++)
-                        {
-                            _Rooms[i, j] = this.surrogateArray[i][j];
-                        }
-                    }
-                }
-            }
+            _Rooms = (Room[,])info.GetValue("_Rooms", typeof(Room[,]));
+            Player = (Player)info.GetValue("Player", typeof(Player));
+            PlayerLocation = (int[])info.GetValue("props", typeof(int[]));
+            Rows = (int)info.GetValue("Rows", typeof(int));
+            Columns = (int)info.GetValue("Columns", typeof(int));
         }
+
+
+
+
+/*        public Maze Load()
+        {
+            Source.Position = 0;
+
+            using var reader = new StreamReader(Source, leaveOpen: true);
+            try
+            {
+                string? jsonData;
+
+                while ((jsonData = reader.ReadLine()) != null)
+                {
+                    if (jsonData is "")
+                    {
+                        return mailboxes;
+                    }
+                    mailboxes.Add(JsonConvert.DeserializeObject<Mailbox>(jsonData));
+                }
+            }
+            catch (JsonReaderException)
+            {
+                return null;
+            }
+
+            reader.Dispose();
+            return mailboxes;
+        }
+
+        public void Save(List<Mailbox> mailboxes)
+        {
+            if (mailboxes is null)
+            {
+                throw new ArgumentNullException(nameof(mailboxes));
+            }
+
+            Source.Position = 0;
+            using var writer = new StreamWriter(Source, leaveOpen: true);
+
+            foreach (Mailbox mb in mailboxes)
+            {
+                string data = JsonConvert.SerializeObject(mb);
+                writer.WriteLine(data);
+            }
+            writer.Dispose();
+        }*/
     }
 }

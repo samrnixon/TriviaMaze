@@ -3,23 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
-using System.Runtime.Serialization;
 
 namespace EntertainmentMaze.maze
 {
-    [DataContract]
+    [Serializable]
     public class Door
     {
-        [DataMember]
-        private Question Question { get; set; }
-        [DataMember]
+        private Question Question { get; }
         private bool IsLocked { get; set; }
-        [DataMember]
         private bool IsOpened { get; set; }
-        [DataMember]
-        private string QuestionString { get; set; }
-        [DataMember]
-        private string AnswerString { get; set; }
+        private string QuestionString { get; }
+        private string AnswerString { get; }
 
         public Door()
         {
@@ -27,16 +21,6 @@ namespace EntertainmentMaze.maze
             QuestionString = Question.CurrentQuestion;
             AnswerString = Question.Answer;
             IsLocked = false;
-        }
-
-        //For Saving Purposes
-        public Door(Question q, bool isLock, bool isOpened, string qString, string aString)
-        {
-            Question = q;
-            IsLocked = isLock;
-            IsOpened = isOpened;
-            QuestionString = qString;
-            AnswerString = aString;
         }
 
         private Question GetRandomQuestion()
@@ -49,25 +33,13 @@ namespace EntertainmentMaze.maze
             return question;
         }
 
-        public Question GetQuestion()
-        {
-            return Question;
-        }
         public bool GetDoorStatus()
         {
             return IsLocked;
         }
-        public bool GetDoorOpenedStatus()
+        internal bool GetDoorOpenedStatus()
         {
             return IsOpened;
-        }
-        public string GetQuestionString()
-        {
-            return QuestionString;
-        }
-        public string GetAnswerString()
-        {
-            return AnswerString;
         }
 
         public void OpenDoor()

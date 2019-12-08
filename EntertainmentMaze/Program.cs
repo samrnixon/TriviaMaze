@@ -2,18 +2,13 @@ using EntertainmentMaze.Database;
 using EntertainmentMaze.maze;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
-using System.Xml;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using JsonSerializer = Newtonsoft.Json.JsonSerializer;
-
-/*
- * There is a cheat enabled.
- * When asked which direction you would like to go.
- * Enter "117" and it will take you one door away from the exit.
- * Must answer next question correctly, if done so you will exit the maze.
- * Purpose: to get close to the exit and simulate answering the "last" needed question correctly.
- */
 
 namespace EntertainmentMaze
 {
@@ -21,15 +16,12 @@ namespace EntertainmentMaze
     {
         internal static Player newPlayer;
         public static Maze playerMaze;
+        public static string SaveFile = "GameSaves.json";
+        internal static IFormatter formatter = new BinaryFormatter();
         private static string PlayResumeMenuOption = "Play";
+        private static Stream _Source;
 
         public static void Main()
-        {
-            RunSetup();
-            Menu();
-        }
-
-        private static void RunSetup()
         {
             DisplayGreeting();
 
@@ -42,22 +34,15 @@ namespace EntertainmentMaze
                 .SetPlayer(newPlayer)
                 .Build();
 
-            PlayResumeMenuOption = "Play";
+            Menu();
         }
 
         private static void DisplayGreeting()
         {
-            string[] banner = File.ReadAllLines(".\\Banner\\banner.txt");
-            foreach (string s in banner)
-            {
-                Console.WriteLine(s);
-            }
             Console.WriteLine();
             Console.WriteLine("-----------------------------------------\n");
             Console.WriteLine("Welcome to the Entertainment Trivia Maze!\n");
-            Console.WriteLine("By: Irrelevant Generals\n");
-            Console.WriteLine("Sam Nixon, Devin Kramer, Cam Sorensen\n");
-            Console.WriteLine("-----------------------------------------\n");
+            Console.WriteLine("-----------------------------------------");
         }
         private static void Menu()
         {
@@ -85,7 +70,7 @@ namespace EntertainmentMaze
                         InGameMenu();
                         break;
                     case 2:
-                        playerMaze = LoadGame();
+                        //LoadGame();
                         break;
                     default:
                         return;
@@ -133,110 +118,60 @@ namespace EntertainmentMaze
                         PlayerControl.MovementAttempt(playerMaze, "W");
                         break;
                     case 5:
-                        SaveGame(playerMaze);
-                        Console.WriteLine("Game Saved!\n");
+                        //SaveGame(playerMaze);
                         break;
                     case 6:
                         playerMaze.DisplayHeroLocation();
-                        break;
-                    case 117:
-                        playerMaze.SetCheatLocation();
                         break;
                     default:
                         PlayResumeMenuOption = "Resume";
                         return;
                 }
-
-                if ((playerMaze.IsSolvable() is null))
-                {
-                    Console.WriteLine($"Sorry, {newPlayer.GetFirstName()} {newPlayer.GetLastName()} you have lost!");
-                    Console.WriteLine();
-                    break;
-                }
-
-                if (playerMaze.GetLocation() == playerMaze.GetExitLocationOfMaze())
-                {
-                    Console.WriteLine("-----------------------------------------\n");
-                    Console.WriteLine($"Congratulations, {newPlayer.GetFirstName()} {newPlayer.GetLastName()} you have won!\n");
-                    Console.WriteLine("Would you like to play again? y/n");
-                    string dec = Console.ReadLine();
-                    if (dec == "Y" || dec == "y")
-                    {
-                        RunSetup();
-                        break;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Thank you for playing!\n");
-                        System.Environment.Exit(1);
-                    }
-                }
             }
         }
-      
-        private static string LoadOptions()
+
+/*        public static Maze LoadGame()
         {
-            string curDir = ".\\Saves\\";
-            string[] saveFiles = Directory.GetFiles(curDir);
-            if(saveFiles is null || saveFiles.Length ==0)
-            {
-                Console.WriteLine("You do not have any saves yet!");
-                return "";
-            }
-
-            Console.WriteLine("Which Save would you like to Load?");
-            Console.WriteLine("Type the number to choose your desired save.");
-            
-            for(int x=0; x< saveFiles.Length; x++)
-            {
-                Console.WriteLine($"GameSave {x}");
-            }
-
-            int entry;
-
-            while (!int.TryParse(Console.ReadLine(), out entry) || entry >= saveFiles.Length || entry < 0)
-            {
-                Console.WriteLine("Please enter a valid save number: ");
-            }
-
-            return $"Saves\\GameSave{entry}.xml";
-        }
-
-
-        public static Maze LoadGame()
-        {
-            string saveFileName = LoadOptions();
-            if(saveFileName == "")
-            {
-                return playerMaze;
-            }
-
-            FileStream fs = new FileStream(saveFileName, FileMode.Open);
-            XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());
-            DataContractSerializer serialized = new DataContractSerializer(typeof(Maze));
-            playerMaze = (Maze)serialized.ReadObject(reader, true);
-            reader.Close();
-            fs.Close();
-
-            Console.WriteLine("-----------------------------------------");
-            Console.WriteLine("\nGame Loaded! Select Play to continue your saved game.\n");
-
-            return playerMaze;
-        }
+            Source.Position = 0;
+            using var reader = new StreamReader(Source, leaveOpen: true);
+            string jsonString = reader.ReadToEnd();
+            return JsonConvert.DeserializeObject<Maze>(jsonString);
+        }*/
 
         public static void SaveGame(Maze maze)
         {
-            string curDir = ".\\Saves\\";
-            string[] saveFiles = Directory.GetFiles(curDir);
-            int SaveCount = saveFiles.Length;
-
             var serializer = new JsonSerializer();
-            string SaveFile = $"Saves\\GameSave{SaveCount}.xml";
-            FileStream writer = new FileStream(SaveFile, FileMode.Create);
-            DataContractSerializer serialized = new DataContractSerializer(typeof(Maze));
-            serialized.WriteObject(writer, playerMaze);
-            writer.Close();
-        }
 
+            using (var sw = new StreamWriter(SaveFile))
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                serializer.Serialize(writer, maze);
+            }
+        }
+/*
+        public static Maze DataLoader(string filePath)
+        {
+            var serializer = new JsonSerializer();
+
+            using (var sw = new StreamReader(filePath))
+            using (var reader = new JsonTextReader(sw))
+            {
+                return serializer.Deserialize(reader);
+            }
+        }*/
+
+        /*        public static void SerializeItem(string fileName, IFormatter formatter)
+                {
+                    FileStream s = new FileStream(fileName, FileMode.Create);
+                    formatter.Serialize(s, playerMaze);
+                    s.Close();
+                }
+
+
+                public static void DeserializeItem(string fileName, IFormatter formatter)
+                {
+                    FileStream s = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+                    playerMaze = (Maze)formatter.Deserialize(s);
+                }*/
     }
 }

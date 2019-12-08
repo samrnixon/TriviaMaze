@@ -11,7 +11,7 @@ namespace EntertainmentMaze.maze
             switch (movementDirection)
             {
                 case "N":
-                    if (playerMaze.GetLocation().NorthDoor is null || playerMaze.GetLocation().NorthDoor.GetDoorStatus())
+                    if ((playerMaze.GetLocation().NorthDoor.GetDoorStatus()))
                     {
                         Console.WriteLine("This Door is locked! You cannot go through here.");
                         return;
@@ -35,7 +35,7 @@ namespace EntertainmentMaze.maze
                     }
                     return;
                 case "E":
-                    if (playerMaze.GetLocation().EastDoor is null || playerMaze.GetLocation().EastDoor.GetDoorStatus())
+                    if (playerMaze.GetLocation().EastDoor.GetDoorStatus())
                     {
                         Console.WriteLine("This Door is locked! You cannot go through here.");
                         return;
@@ -59,7 +59,7 @@ namespace EntertainmentMaze.maze
                     }
                     return;
                 case "S":
-                    if (playerMaze.GetLocation().SouthDoor is null || playerMaze.GetLocation().SouthDoor.GetDoorStatus() is true)
+                    if (playerMaze.GetLocation().SouthDoor.GetDoorStatus() is true)
                     {
                         Console.WriteLine("This Door is locked! You cannot go through here.");
                         return;
@@ -83,7 +83,7 @@ namespace EntertainmentMaze.maze
                     }
                     return;
                 case "W":
-                    if (playerMaze.GetLocation().WestDoor is null || playerMaze.GetLocation().WestDoor.GetDoorStatus() is true)
+                    if (playerMaze.GetLocation().WestDoor.GetDoorStatus() is true)
                     {
                         Console.WriteLine("This Door is locked! You cannot go through here.");
                         return;
