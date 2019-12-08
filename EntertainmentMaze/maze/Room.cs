@@ -1,26 +1,22 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Text;
 
 namespace EntertainmentMaze.maze
 {
-    [DataContract]
+    [Serializable]
     public class Room
     {
-        [DataMember]
-        internal Door NorthDoor { get; set; } //= new Door();
-        [DataMember]
-        internal Door EastDoor { get; set; } //= new Door();
-        [DataMember]
-        internal Door SouthDoor { get; set; } //= new Door();
-        [DataMember]
-        internal Door WestDoor { get; set; } //= new Door();
+        internal Door NorthDoor { get; set; } = new Door();
+        internal Door EastDoor { get; set; } = new Door();
+        internal Door SouthDoor { get; set; } = new Door();
+        internal Door WestDoor { get; set; } = new Door();
+
+        public List<Door> ListOfDoors;
 
         public int RowLocation { get; }
         public int ColumnLocation { get; }
-        [DataMember]
+
         private bool IsPlayerInRoom { get; set; } = false;
 
         public Room(int rowLocation, int columnLocation, int numberOfTotalRows, int numberOfTotalColumns)
@@ -28,21 +24,15 @@ namespace EntertainmentMaze.maze
             RowLocation = rowLocation;
             ColumnLocation = columnLocation;
 
-            NorthDoor = new Door();
-            EastDoor = new Door();
-            SouthDoor = new Door();
-            WestDoor = new Door();
+            ListOfDoors = new List<Door>()
+            {
+                NorthDoor,
+                EastDoor,
+                SouthDoor,
+                WestDoor
+            };
 
             CreateRoomDescription(numberOfTotalRows, numberOfTotalColumns);
-        }
-
-        [JsonConstructor]
-        public Room(Door nDoor, Door eDoor, Door sDoor, Door wDoor)
-        {
-            NorthDoor = nDoor;
-            EastDoor = eDoor;
-            SouthDoor = sDoor;
-            WestDoor = wDoor;
         }
 
         public void SetPlayerInRoom()

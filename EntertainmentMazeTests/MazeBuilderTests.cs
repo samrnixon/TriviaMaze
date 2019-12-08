@@ -16,7 +16,15 @@ namespace EntertainmentMazeTests
         [DataRow(1, 1)]
         public void MazeBuilder_CreatesMazeWithCorrectInput_Success(int rows, int columns)
         {
+            //Arrange
+            MazeBuilder mazeBuilder = new MazeBuilder();
+            Maze expectedMaze = new Maze(rows, columns, null);
+            //Act
+            Maze actualMaze = mazeBuilder.SetRows(rows).SetColumns(columns).Build();
 
+            //Assert
+            Assert.AreEqual<int>(expectedMaze.Rows, actualMaze.Rows);
+            Assert.AreEqual<int>(expectedMaze.Columns, actualMaze.Columns);
         }
     }
 }
