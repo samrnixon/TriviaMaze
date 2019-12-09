@@ -21,6 +21,13 @@ namespace EntertainmentMaze.maze
         [DataMember]
         private string AnswerString { get; set; }
 
+        public static Door CreateDoor() => new Door();
+        public Question GetQuestion() => Question;
+        public bool GetDoorStatus() => IsLocked;
+        public bool GetDoorOpenedStatus() => IsOpened;
+        public string GetQuestionString() => QuestionString;
+        public string GetAnswerString() => AnswerString;
+
         public Door()
         {
             Question = GetRandomQuestion();
@@ -32,39 +39,19 @@ namespace EntertainmentMaze.maze
         private Question GetRandomQuestion()
         {
             Random rnd = new Random();
-            List<Question> listOfQuestions = DatabaseListRetrieval.ListOfQuestions;
+            List<Question> listOfQuestions = DatabaseListRetrieval.GetListOfQuestions();
             int r = rnd.Next(listOfQuestions.Count);
             Question question = listOfQuestions.ElementAt(r);
 
             return question;
         }
 
+
+
         public void OpenDoor()
         {
             IsOpened = true;
         }
-
-        public Question GetQuestion()
-        {
-            return Question;
-        }
-        public bool GetDoorStatus()
-        {
-            return IsLocked;
-        }
-        public bool GetDoorOpenedStatus()
-        {
-            return IsOpened;
-        }
-        public string GetQuestionString()
-        {
-            return QuestionString;
-        }
-        public string GetAnswerString()
-        {
-            return AnswerString;
-        }
-
         public void LockDoor()
         {
             IsLocked = true;

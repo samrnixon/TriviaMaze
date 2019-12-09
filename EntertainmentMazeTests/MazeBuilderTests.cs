@@ -102,6 +102,5 @@ namespace EntertainmentMazeTests
                 .SetPlayer(null)
                 .Build();
         }
-
     }
 }

@@ -8,7 +8,12 @@ namespace EntertainmentMaze.Database
 {
     public class DatabaseListRetrieval
     {
-        public static List<Question> ListOfQuestions;
+        private static List<Question> ListOfQuestions;
+
+        public static List<Question> GetListOfQuestions()
+        {
+            return ListOfQuestions;
+        }
 
         public static void InitializeList()
         {

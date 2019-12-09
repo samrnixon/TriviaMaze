@@ -10,16 +10,49 @@ namespace EntertainmentMazeTests
     [TestClass]
     public class DoorTests
     {
-        [TestMethod]
-        public void Door_MakesMultipleDoorsWithoutRepeatingQuestions_Success()
+        [TestInitialize]
+        public void TestInitialize()
         {
-/*            List<string> usedQuestions = new List<string>();
+            DatabaseListRetrieval.InitializeList();
+        }
+      
+        [TestMethod]
+        public void Constructor_CreatesDoorWithValidInput_Success()
+        {
+            List<string> usedQuestions = new List<string>();
             DatabaseListRetrieval connection = new DatabaseListRetrieval();
+            //Arrange
+            var testDoor = Door.CreateDoor();
+            //Act
+            var testQuestion = testDoor.DisplayQuestion();
+            var testAnswer = testDoor.DisplayAnswer();
+            var expectedToBeLocked = false;
+            //Assert
+            Assert.IsTrue(testQuestion.Length > 0);
+            Assert.IsTrue(testAnswer.Length > 0);
+            Assert.AreEqual<bool>(expectedToBeLocked, testDoor.GetDoorStatus());
+        }
 
-            Door nDoor = new Door();
-            Door sDoor = new Door();
-
-            Assert.IsFalse(nDoor.DisplayQuestion().Equals(sDoor.DisplayQuestion()));*/
+        [TestMethod]
+        public void DisplayQuestion_QuestionIsValidFormat_Success()
+        {
+            //Arrange
+            var testDoor = Door.CreateDoor();
+            //Act
+            var expectedResult = testDoor.GetQuestionString();
+            //Assert
+            Assert.AreEqual<string>(expectedResult, testDoor.GetQuestion().ToString());
+        }
+      
+        [TestMethod]
+        public void DisplayAnswer_AnswerIsValidFormat_Success()
+        {
+            //Arrange
+            var testDoor = Door.CreateDoor();
+            //Act
+            var expectedResult = testDoor.GetAnswerString();
+            //Assert
+            Assert.AreEqual<string>(expectedResult, testDoor.GetAnswerString().ToString());
         }
 
     }
