@@ -12,8 +12,38 @@ namespace EntertainmentMazeTests
     public class QuestionTests
     {
         [TestMethod]
-        public void ConnectionToDatabase_Successful()
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void Question_CannotMakeQuestion_BadQuestionID()
         {
+            Question question = new Question(-1, 1, 1, "question", "answer");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void Question_CannotMakeQuestion_BadAnswerID()
+        {
+            Question question = new Question(1, -1, 1, "question", "answer");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void Question_CannotMakeQuestion_BadTypeID()
+        {
+            Question question = new Question(1, 1, -1, "question", "answer");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Question_CannotMakeQuestion_BadQuestionString()
+        {
+            Question question = new Question(1, 1, 1, null, "answer");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Question_CannotMakeQuestion_BadAnswerString()
+        {
+            Question question = new Question(1, 1, 1, "question", null);
         }
     }
 }

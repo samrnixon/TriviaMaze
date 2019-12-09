@@ -4,10 +4,19 @@ using System.Text;
 
 namespace EntertainmentMaze.maze
 {
-    class PlayerControl
+    public class PlayerControl
     {
         public static void MovementAttempt(Maze playerMaze, string movementDirection)
         {
+            if(playerMaze is null)
+            {
+                throw new ArgumentNullException(nameof(playerMaze));
+            }
+            if(movementDirection == "" || movementDirection is null)
+            {
+                throw new ArgumentNullException(nameof(movementDirection));
+            }
+
             switch (movementDirection)
             {
                 case "N":
@@ -111,6 +120,15 @@ namespace EntertainmentMaze.maze
 
         public static bool QuestionAttempt(string question, string answer)
         {
+            if(question is null || question == "")
+            {
+                throw new ArgumentNullException(nameof(question));
+            }
+            if (answer is null || answer == "")
+            {
+                throw new ArgumentNullException(nameof(answer));
+            }
+
             string attemptedAnswer = "";
             Console.WriteLine("Here is the question to open the door:\n");
             Console.WriteLine(question);

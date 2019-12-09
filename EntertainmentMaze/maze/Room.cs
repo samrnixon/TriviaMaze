@@ -10,13 +10,13 @@ namespace EntertainmentMaze.maze
     public class Room
     {
         [DataMember]
-        internal Door NorthDoor { get; set; } //= new Door();
+        internal Door NorthDoor { get; set; }
         [DataMember]
-        internal Door EastDoor { get; set; } //= new Door();
+        internal Door EastDoor { get; set; }
         [DataMember]
-        internal Door SouthDoor { get; set; } //= new Door();
+        internal Door SouthDoor { get; set; }
         [DataMember]
-        internal Door WestDoor { get; set; } //= new Door();
+        internal Door WestDoor { get; set; }
 
         public int RowLocation { get; }
         public int ColumnLocation { get; }
@@ -25,6 +25,11 @@ namespace EntertainmentMaze.maze
 
         public Room(int rowLocation, int columnLocation, int numberOfTotalRows, int numberOfTotalColumns)
         {
+            if (rowLocation < 0) { throw new ArgumentOutOfRangeException(nameof(rowLocation)); }
+            if (columnLocation < 0) { throw new ArgumentOutOfRangeException(nameof(columnLocation)); }
+            if (numberOfTotalRows < 0) { throw new ArgumentOutOfRangeException(nameof(numberOfTotalRows)); }
+            if (numberOfTotalColumns < 0) { throw new ArgumentOutOfRangeException(nameof(numberOfTotalColumns)); }
+
             RowLocation = rowLocation;
             ColumnLocation = columnLocation;
 

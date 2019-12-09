@@ -29,16 +29,6 @@ namespace EntertainmentMaze.maze
             IsLocked = false;
         }
 
-        //For Saving Purposes
-        public Door(Question q, bool isLock, bool isOpened, string qString, string aString)
-        {
-            Question = q;
-            IsLocked = isLock;
-            IsOpened = isOpened;
-            QuestionString = qString;
-            AnswerString = aString;
-        }
-
         private Question GetRandomQuestion()
         {
             Random rnd = new Random();

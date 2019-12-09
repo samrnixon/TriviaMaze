@@ -47,11 +47,12 @@ namespace EntertainmentMaze
 
         private static void DisplayGreeting()
         {
-            string[] banner = File.ReadAllLines(".\\Banner\\banner.txt");
-            foreach (string s in banner)
-            {
-                Console.WriteLine(s);
-            }
+            Console.WriteLine(" ______ _______ __  __ ");
+            Console.WriteLine("|  ____|__   __|  \\/  |");
+            Console.WriteLine("| |__     | |  | \\  / |");
+            Console.WriteLine("|  __|    | |  | |\\/| |");
+            Console.WriteLine("| |____   | |  | |  | |");
+            Console.WriteLine("|______|  |_|  |_|  |_|");
             Console.WriteLine();
             Console.WriteLine("-----------------------------------------\n");
             Console.WriteLine("Welcome to the Entertainment Trivia Maze!\n");
@@ -147,30 +148,41 @@ namespace EntertainmentMaze
                         return;
                 }
 
-                if ((playerMaze.IsSolvable() is null))
+                if((playerMaze.isSolvable() is false))
+                {
+                    Console.WriteLine($"Sorry, {newPlayer.GetFirstName()} {newPlayer.GetLastName()} you have lost!");
+                    Console.WriteLine();
+                    EndGame();
+                }
+
+/*                if ((playerMaze.IsSolvable() is null))
                 {
                     Console.WriteLine($"Sorry, {newPlayer.GetFirstName()} {newPlayer.GetLastName()} you have lost!");
                     Console.WriteLine();
                     break;
-                }
+                }*/
 
                 if (playerMaze.GetLocation() == playerMaze.GetExitLocationOfMaze())
                 {
                     Console.WriteLine("-----------------------------------------\n");
                     Console.WriteLine($"Congratulations, {newPlayer.GetFirstName()} {newPlayer.GetLastName()} you have won!\n");
-                    Console.WriteLine("Would you like to play again? y/n");
-                    string dec = Console.ReadLine();
-                    if (dec == "Y" || dec == "y")
-                    {
-                        RunSetup();
-                        break;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Thank you for playing!\n");
-                        System.Environment.Exit(1);
-                    }
+                    EndGame();
                 }
+            }
+        }
+
+        private static void EndGame()
+        {
+            Console.WriteLine("Would you like to play again? y/n");
+            string dec = Console.ReadLine();
+            if (dec == "Y" || dec == "y")
+            {
+                RunSetup();
+            }
+            else
+            {
+                Console.WriteLine("Thank you for playing!\n");
+                System.Environment.Exit(1);
             }
         }
       
