@@ -18,6 +18,11 @@ namespace EntertainmentMaze.maze
 
         public MazeBuilder SetRows(int rows)
         {
+            if(rows<=0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(rows));
+            }
+
             Check();
             Maze.Rows = rows;
             return this;
@@ -25,6 +30,11 @@ namespace EntertainmentMaze.maze
 
         public MazeBuilder SetColumns(int columns)
         {
+            if (columns <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(columns));
+            }
+
             Check();
             Maze.Columns = columns;
             return this;
@@ -32,6 +42,11 @@ namespace EntertainmentMaze.maze
 
         public MazeBuilder SetPlayer(Player player)
         {
+            if(player is null)
+            {
+                throw new ArgumentNullException(nameof(player));
+            }
+
             Check();
             Maze._Player = player;
             return this;

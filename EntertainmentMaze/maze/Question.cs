@@ -10,12 +10,6 @@ namespace EntertainmentMaze.maze
     [Serializable]
     public class Question
     {
-        private enum QuestionTypes
-        {
-            TrueFalse = 0,
-            ShortAnswer = 1,
-            MultipleChoice = 2
-        }
 
         private int QuestionID { get; }
         private int AnswerID { get; }
@@ -23,41 +17,25 @@ namespace EntertainmentMaze.maze
         public string CurrentQuestion { get; }
         public string Answer { get; }
 
-        
 
         public Question(int questionID, int answerID, int typeID, string question, string answer)
         {
+            if (questionID < 0) { throw new ArgumentOutOfRangeException(nameof(questionID)); }
+            if (answerID < 0) { throw new ArgumentOutOfRangeException(nameof(answerID)); }
+            if (typeID < 0) { throw new ArgumentOutOfRangeException(nameof(typeID)); }
+            if (question is null || question == "") { throw new ArgumentNullException(nameof(question)); }
+            if (answer is null || answer == "") { throw new ArgumentNullException(nameof(answer)); }
+
             this.QuestionID = questionID;
             this.AnswerID = answerID;
             this.TypeID = typeID;
             this.CurrentQuestion = question ?? throw new ArgumentNullException(nameof(question));
             this.Answer = answer ?? throw new ArgumentNullException(nameof(answer));
         }
-
-
-        private QuestionTypes GenerateRandomNumberForQuestionTypeValue()
-        {
-            Random random = new Random();
-            int randomNumberInRange = random.Next(0, 3);
-            switch(randomNumberInRange)
-            {
-                case 0:
-                    return QuestionTypes.TrueFalse;
-                case 1:
-                    return QuestionTypes.ShortAnswer;
-                case 2:
-                    return QuestionTypes.MultipleChoice;
-                default:
-                    return QuestionTypes.TrueFalse;
-            }
-        }
-
+      
         public override string ToString()
         {
             return CurrentQuestion;
         }
-
-
-
     }
 }

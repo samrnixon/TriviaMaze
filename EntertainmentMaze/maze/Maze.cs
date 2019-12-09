@@ -79,159 +79,18 @@ namespace EntertainmentMaze.maze
 
             return _Traversed;
         }
+
+        internal bool isSolvable()
+        {
+           return findPath(SameRow(), SameColumn());
+        }
+
         private bool FindPath(int playerRowLocation, int playerColumnLocation)
         {
-/*            if (playerRowLocation < 0 || playerRowLocation >= Rows) return false;
-            if (playerColumnLocation < 0 || playerColumnLocation >= Columns) return false;
-            if (_Rooms[playerRowLocation, playerColumnLocation] == ExitLocationOfMaze()) return true;*/
-
-            for(int x=0; x<4; x++)
-            { 
-                if(x==0)
-                {
-                    if(canTraverse(playerColumnLocation - 1, playerColumnLocation,x))
-                    {
-                        _Traversed.Add((playerColumnLocation - 1, playerColumnLocation));
-
-                    }
-                }
-                if (x == 1)
-                {
-                    if (canTraverse(playerColumnLocation, playerColumnLocation + 1,x))
-                    {
-
-                    }
-                }
-                if (x == 2)
-                {
-                    if (canTraverse(playerColumnLocation + 1, playerColumnLocation,x))
-                    {
-
-                    }
-                }
-                if (x == 3)
-                {
-                    if (canTraverse(playerColumnLocation, playerColumnLocation - 1,x))
-                    {
-
-                    }
-                }
-            }
-
-
-
-            return false;
-
-
-
-
-
-
-
-/*            if (!(_Rooms[playerRowLocation, playerColumnLocation].NorthDoor is null))
-            {
-                if ((_Rooms[playerRowLocation, playerColumnLocation].NorthDoor.GetDoorStatus() is false))
-                {
-                    if (playerRowLocation - 1 == lastTraversedRow && playerColumnLocation == lastTraversedCol)
-                    {
-                        
-                    }
-
-                    lastTraversedRow = playerRowLocation;
-                    lastTraversedCol = playerColumnLocation;
-                    if (FindPath(playerRowLocation - 1, playerColumnLocation))
-                    {
-                        return true;
-                    }
-                }
-
-            }
-            if (!(_Rooms[playerRowLocation, playerColumnLocation].EastDoor is null))
-            {
-                if ((_Rooms[playerRowLocation, playerColumnLocation].EastDoor.GetDoorStatus()) is false)
-                {
-                    if (playerRowLocation == lastTraversedRow && playerColumnLocation + 1 == lastTraversedCol)
-                    {
-
-                    }
-                    lastTraversedRow = playerRowLocation;
-                    lastTraversedCol = playerColumnLocation;
-                    if (FindPath(playerRowLocation, playerColumnLocation + 1))
-                    {
-                        return true;
-                    }
-                }
-
-            }
-            if (!(_Rooms[playerRowLocation, playerColumnLocation].SouthDoor is null))
-            {
-
-                if ((_Rooms[playerRowLocation, playerColumnLocation].SouthDoor.GetDoorStatus()) is false)
-                {
-                    if (playerRowLocation + 1 == lastTraversedRow && playerColumnLocation == lastTraversedCol)
-                    {
-
-                    }
-                    lastTraversedRow = playerRowLocation;
-                    lastTraversedCol = playerColumnLocation;
-                    if (FindPath(playerRowLocation + 1, playerColumnLocation))
-                    {
-                        return true;
-                    }
-                }
-
-            }
-            if (!(_Rooms[playerRowLocation, playerColumnLocation].WestDoor is null))
-            {
-                if ((_Rooms[playerRowLocation, playerColumnLocation].WestDoor.GetDoorStatus()) is false)
-                {
-                    if (playerRowLocation == lastTraversedRow && playerColumnLocation - 1 == lastTraversedCol)
-                    {
-
-                    }
-                    lastTraversedRow = playerRowLocation;
-                    lastTraversedCol = playerColumnLocation;
-                    if (FindPath(playerRowLocation, playerColumnLocation - 1))
-                    {
-                        return true;
-                    }
-                }
-
-            }
-
-            int lTR = lastTraversedRow;
-            int lTC = lastTraversedCol;
-            lastTraversedRow = playerRowLocation;
-            lastTraversedCol = playerColumnLocation;
-            traversable[playerRowLocation, playerColumnLocation] = false;
-            FindPath(lTR, lTC);
-
-            return false;*/
+            return true;
         }
 
-        private bool canTraverse(int r, int c, int x)
-        {
-            if (r < 0 || r >= Rows) return false;
-            if (c < 0 || c >= Columns) return false;
 
-            if (x == 0)
-            {
-                return ((!(_Rooms[r, c].NorthDoor is null)) && ((_Rooms[r, c].NorthDoor.GetDoorStatus() is false)));
-            }
-            if (x == 1)
-            {
-                return ((!(_Rooms[r, c].EastDoor is null)) && ((_Rooms[r, c].EastDoor.GetDoorStatus() is false)));
-            }
-            if (x == 2)
-            {
-                return ((!(_Rooms[r, c].SouthDoor is null)) && ((_Rooms[r, c].SouthDoor.GetDoorStatus() is false)));
-            }
-            if (x == 3)
-            {
-                return ((!(_Rooms[r, c].WestDoor is null)) && ((_Rooms[r, c].WestDoor.GetDoorStatus() is false)));
-            }
-            return false;
-        }
 
         public void SetCheatLocation()
         {

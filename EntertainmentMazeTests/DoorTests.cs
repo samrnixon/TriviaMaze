@@ -10,16 +10,17 @@ namespace EntertainmentMazeTests
     [TestClass]
     public class DoorTests
     {
-       
         [TestInitialize]
         public void TestInitialize()
         {
             DatabaseListRetrieval.InitializeList();
         }
-
+      
         [TestMethod]
         public void Constructor_CreatesDoorWithValidInput_Success()
         {
+            List<string> usedQuestions = new List<string>();
+            DatabaseListRetrieval connection = new DatabaseListRetrieval();
             //Arrange
             var testDoor = Door.CreateDoor();
             //Act
@@ -42,7 +43,7 @@ namespace EntertainmentMazeTests
             //Assert
             Assert.AreEqual<string>(expectedResult, testDoor.GetQuestion().ToString());
         }
-
+      
         [TestMethod]
         public void DisplayAnswer_AnswerIsValidFormat_Success()
         {
