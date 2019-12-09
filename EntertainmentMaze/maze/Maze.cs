@@ -82,7 +82,7 @@ namespace EntertainmentMaze.maze
 
         internal bool isSolvable()
         {
-           return findPath(SameRow(), SameColumn());
+           return FindPath(SameRow(), SameColumn());
         }
 
         private bool FindPath(int playerRowLocation, int playerColumnLocation)
