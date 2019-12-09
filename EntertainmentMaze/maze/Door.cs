@@ -39,6 +39,11 @@ namespace EntertainmentMaze.maze
             return question;
         }
 
+        public void OpenDoor()
+        {
+            IsOpened = true;
+        }
+
         public Question GetQuestion()
         {
             return Question;
@@ -60,14 +65,14 @@ namespace EntertainmentMaze.maze
             return AnswerString;
         }
 
-        public void OpenDoor()
-        {
-            IsOpened = true;
-        }
-
         public void LockDoor()
         {
             IsLocked = true;
+        }
+
+        public void UnlockDoor()
+        {
+            IsLocked = false;
         }
 
         public string DisplayQuestion()

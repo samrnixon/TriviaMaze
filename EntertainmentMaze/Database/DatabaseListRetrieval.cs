@@ -16,6 +16,7 @@ namespace EntertainmentMaze.Database
         }
 
         private static readonly string connectionString = @"Data Source = .\\Database\\TriviaDatabase.db;";
+
         private static readonly string cmdString = "SELECT * FROM QUESTION;";
 
         private static List<Question> ReadData()
