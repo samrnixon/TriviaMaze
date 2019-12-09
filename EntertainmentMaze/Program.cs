@@ -47,11 +47,12 @@ namespace EntertainmentMaze
 
         private static void DisplayGreeting()
         {
-            string[] banner = File.ReadAllLines(".\\Banner\\banner.txt");
-            foreach (string s in banner)
-            {
-                Console.WriteLine(s);
-            }
+            Console.WriteLine(" ______ _______ __  __ ");
+            Console.WriteLine("|  ____|__   __|  \\/  |");
+            Console.WriteLine("| |__     | |  | \\  / |");
+            Console.WriteLine("|  __|    | |  | |\\/| |");
+            Console.WriteLine("| |____   | |  | |  | |");
+            Console.WriteLine("|______|  |_|  |_|  |_|");
             Console.WriteLine();
             Console.WriteLine("-----------------------------------------\n");
             Console.WriteLine("Welcome to the Entertainment Trivia Maze!\n");

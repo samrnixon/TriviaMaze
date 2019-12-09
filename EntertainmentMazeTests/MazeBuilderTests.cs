@@ -9,14 +9,6 @@ namespace EntertainmentMazeTests
     [TestClass]
     public class MazeBuilderTests
     {
-        [TestMethod]
-        [DataRow(0, 0)]
-        [DataRow(0, 1)]
-        [DataRow(1, 0)]
-        [DataRow(1, 1)]
-        public void MazeBuilder_CreatesMazeWithCorrectInput_Success(int rows, int columns)
-        {
 
-        }
     }
 }

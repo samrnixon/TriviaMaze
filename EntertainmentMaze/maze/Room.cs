@@ -10,28 +10,29 @@ namespace EntertainmentMaze.maze
     public class Room
     {
         [DataMember]
-        internal Door NorthDoor { get; set; } //= new Door();
+        internal Door NorthDoor { get; set; }
         [DataMember]
-        internal Door EastDoor { get; set; } //= new Door();
+        internal Door EastDoor { get; set; }
         [DataMember]
-        internal Door SouthDoor { get; set; } //= new Door();
+        internal Door SouthDoor { get; set; }
         [DataMember]
-        internal Door WestDoor { get; set; } //= new Door();
+        internal Door WestDoor { get; set; }
+        [DataMember]
+        private bool IsPlayerInRoom { get; set; } = false;
 
         public int RowLocation { get; }
         public int ColumnLocation { get; }
-        [DataMember]
-        private bool IsPlayerInRoom { get; set; } = false;
+
 
         public Room(int rowLocation, int columnLocation, int numberOfTotalRows, int numberOfTotalColumns)
         {
             RowLocation = rowLocation;
             ColumnLocation = columnLocation;
 
-            NorthDoor = new Door();
-            EastDoor = new Door();
-            SouthDoor = new Door();
-            WestDoor = new Door();
+            NorthDoor = Door.CreateDoor();
+            EastDoor = Door.CreateDoor();
+            SouthDoor = Door.CreateDoor();
+            WestDoor = Door.CreateDoor();
 
             CreateRoomDescription(numberOfTotalRows, numberOfTotalColumns);
         }

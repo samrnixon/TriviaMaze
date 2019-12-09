@@ -8,10 +8,6 @@ namespace EntertainmentMazeTests
     [TestClass]
     internal class RoomTests
     {
-        [TestMethod]
-        public void MyTestMethod()
-        {
 
-        }
     }
 }
