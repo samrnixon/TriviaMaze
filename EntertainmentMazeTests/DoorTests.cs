@@ -19,8 +19,6 @@ namespace EntertainmentMazeTests
         [TestMethod]
         public void Constructor_CreatesDoorWithValidInput_Success()
         {
-            List<string> usedQuestions = new List<string>();
-            DatabaseListRetrieval connection = new DatabaseListRetrieval();
             //Arrange
             var testDoor = Door.CreateDoor();
             //Act
