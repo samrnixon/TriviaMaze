@@ -7,13 +7,18 @@ using System.Runtime.Serialization;
 using System.Xml;
 using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
-/*
- * There is a cheat enabled.
- * When asked which direction you would like to go.
+/*/
+ * There is a cheat at your disposal.
+ * When asked which direction you would like to go,
  * Enter "117" and it will take you one door away from the exit.
- * Must answer next question correctly, if done so you will exit the maze.
- * Purpose: to get close to the exit and simulate answering the "last" needed question correctly.
- */
+ * If you answer the EastDoor's question correctly, you will exit the maze and win.
+ * Purpose: to get close to the exit and simulate answering the "last" needed question correctly with greater ease.
+ * 
+ * Important FYI, if you use the cheat, and immediately lock yourself in the room the cheat brings you to,
+ * (This would be answering EastDoor, NorthDoor and WestDoor questions all wrong)
+ * the game still thinks that the maze is solvable because you used the cheat. 
+ * Thus, you will not "lose" and the game will not end.
+/*/
 
 namespace EntertainmentMaze
 {
@@ -60,6 +65,7 @@ namespace EntertainmentMaze
             Console.WriteLine("Sam Nixon, Devin Kramer, Cam Sorensen\n");
             Console.WriteLine("-----------------------------------------\n");
         }
+
         private static void Menu()
         {
             while (true)
@@ -148,19 +154,12 @@ namespace EntertainmentMaze
                         return;
                 }
 
-                if((playerMaze.isSolvable() is false))
+                if ((playerMaze.IsSolvable().Count == 0))
                 {
-                    Console.WriteLine($"Sorry, {newPlayer.GetFirstName()} {newPlayer.GetLastName()} you have lost!");
-                    Console.WriteLine();
+                    Console.WriteLine($"\nSorry, {newPlayer.GetFirstName()} {newPlayer.GetLastName()} you have lost!");
+                    Console.WriteLine("There is no way out from here...\n");
                     EndGame();
                 }
-
-/*                if ((playerMaze.IsSolvable() is null))
-                {
-                    Console.WriteLine($"Sorry, {newPlayer.GetFirstName()} {newPlayer.GetLastName()} you have lost!");
-                    Console.WriteLine();
-                    break;
-                }*/
 
                 if (playerMaze.GetLocation() == playerMaze.GetExitLocationOfMaze())
                 {
@@ -189,6 +188,10 @@ namespace EntertainmentMaze
         private static string LoadOptions()
         {
             string curDir = ".\\Saves\\";
+            if (!Directory.Exists(curDir))
+            {
+                Directory.CreateDirectory(Directory.GetCurrentDirectory() + curDir);
+            }
             string[] saveFiles = Directory.GetFiles(curDir);
             if(saveFiles is null || saveFiles.Length ==0)
             {
@@ -239,6 +242,10 @@ namespace EntertainmentMaze
         public static void SaveGame(Maze maze)
         {
             string curDir = ".\\Saves\\";
+            if (!Directory.Exists(curDir))
+            {
+                Directory.CreateDirectory(Directory.GetCurrentDirectory() + curDir);
+            }
             string[] saveFiles = Directory.GetFiles(curDir);
             int SaveCount = saveFiles.Length;
 
