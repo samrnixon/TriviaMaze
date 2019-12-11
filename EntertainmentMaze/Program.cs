@@ -13,11 +13,6 @@ using JsonSerializer = Newtonsoft.Json.JsonSerializer;
  * Enter "117" and it will take you one door away from the exit.
  * If you answer the EastDoor's question correctly, you will exit the maze and win.
  * Purpose: to get close to the exit and simulate answering the "last" needed question correctly with greater ease.
- * 
- * Important FYI, if you use the cheat, and immediately lock yourself in the room the cheat brings you to,
- * (This would be answering EastDoor, NorthDoor and WestDoor questions all wrong)
- * the game still thinks that the maze is solvable because you used the cheat. 
- * Thus, you will not "lose" and the game will not end.
 /*/
 
 namespace EntertainmentMaze
@@ -187,13 +182,14 @@ namespace EntertainmentMaze
       
         private static string LoadOptions()
         {
-            string curDir = ".\\Saves\\";
-            if (!Directory.Exists(curDir))
+            if (!Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)+"\\Saves")))
             {
-                Directory.CreateDirectory(Directory.GetCurrentDirectory() + curDir);
+                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Saves"));
             }
-            string[] saveFiles = Directory.GetFiles(curDir);
-            if(saveFiles is null || saveFiles.Length ==0)
+
+            string[] saveFiles = Directory.GetFiles(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Saves"));
+
+            if (saveFiles is null || saveFiles.Length ==0)
             {
                 Console.WriteLine("You do not have any saves yet!");
                 return "";
@@ -214,7 +210,7 @@ namespace EntertainmentMaze
                 Console.WriteLine("Please enter a valid save number: ");
             }
 
-            return $"Saves\\GameSave{entry}.xml";
+            return $"{Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))}\\Saves\\GameSave{entry}.xml";
         }
 
 
@@ -241,17 +237,13 @@ namespace EntertainmentMaze
 
         public static void SaveGame(Maze maze)
         {
-            string curDir = ".\\Saves\\";
-            if (!Directory.Exists(curDir))
-            {
-                Directory.CreateDirectory(Directory.GetCurrentDirectory() + curDir);
-            }
-            string[] saveFiles = Directory.GetFiles(curDir);
-            int SaveCount = saveFiles.Length;
+            var curDir = Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Saves"));
 
+            FileInfo[] saveFiles = curDir.GetFiles();
+            int SaveCount = saveFiles.Length;
             var serializer = new JsonSerializer();
-            string SaveFile = $"Saves\\GameSave{SaveCount}.xml";
-            FileStream writer = new FileStream(SaveFile, FileMode.Create);
+            string SaveFile = $"\\GameSave{SaveCount}.xml";
+            FileStream writer = new FileStream(curDir+SaveFile, FileMode.OpenOrCreate);
             DataContractSerializer serialized = new DataContractSerializer(typeof(Maze));
             serialized.WriteObject(writer, playerMaze);
             writer.Close();

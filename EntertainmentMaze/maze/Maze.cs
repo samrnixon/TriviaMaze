@@ -84,6 +84,7 @@ namespace EntertainmentMaze.maze
             traversed = new bool[5,5];
             Coordinate end = new Coordinate(4, 4);
             Coordinate playerLocation = new Coordinate(SameRow(), SameColumn());
+            traversed[0, 0] = true;
             path.Add(playerLocation);
 
             if (!FindPath(traversed, playerLocation, end, path))
@@ -158,184 +159,6 @@ namespace EntertainmentMaze.maze
             }
             return false;
         }
-
-        /*            for (int x = 0; x < 4; x++)
-                    {
-                        if (x == 0)
-                        {
-                            if (canTraverse(playerRowLocation - 1, playerColumnLocation, x))
-                            {
-                                _Traversed.Add((playerRowLocation - 1, playerColumnLocation));
-
-                                if (FindPath(playerRowLocation - 1, playerColumnLocation))
-                                {
-                                    return true;
-                                }
-                                _Traversed.Remove((_Traversed.Capacity - 1, _Traversed.Capacity - 1));
-                            }
-                        }
-                        else if (x == 1)
-                        {
-                            if (canTraverse(playerRowLocation, playerColumnLocation + 1, x))
-                            {
-                                _Traversed.Add((playerRowLocation, playerColumnLocation + 1));
-
-                                if (FindPath(playerRowLocation, playerColumnLocation + 1))
-                                {
-                                    return true;
-                                }
-                                _Traversed.Remove((_Traversed.Capacity - 1, _Traversed.Capacity - 1));
-                            }
-                        }
-                        else if (x == 2)
-                        {
-                            if (canTraverse(playerRowLocation + 1, playerColumnLocation, x))
-                            {
-                                _Traversed.Add((playerRowLocation + 1, playerColumnLocation));
-
-                                if (FindPath(playerRowLocation + 1, playerColumnLocation))
-                                {
-                                    return true;
-                                }
-                                _Traversed.Remove((_Traversed.Capacity - 1, _Traversed.Capacity - 1));
-                            }
-                        }
-                        else if (x == 3)
-                        {
-                            if (canTraverse(playerRowLocation, playerColumnLocation - 1, x))
-                            {
-                                _Traversed.Add((playerRowLocation, playerColumnLocation - 1));
-
-                                if (FindPath(playerRowLocation, playerColumnLocation - 1))
-                                {
-                                    return true;
-                                }
-                                _Traversed.Remove((_Traversed.Capacity - 1, _Traversed.Capacity - 1));
-                            }
-                        }
-                    }
-                    return false;*/
-
-        /*            if (playerRowLocation < 0 || playerRowLocation >= Rows) return false;
-                    if (playerColumnLocation < 0 || playerColumnLocation >= Columns) return false;
-                    if (_Rooms[playerRowLocation, playerColumnLocation] == ExitLocationOfMaze()) return true;
-
-
-
-                    if (!(_Rooms[playerRowLocation, playerColumnLocation].NorthDoor is null))
-                    {
-                        if ((_Rooms[playerRowLocation, playerColumnLocation].NorthDoor.GetDoorStatus() is false))
-                        {
-                            if (playerRowLocation - 1 == lastTraversedRow && playerColumnLocation == lastTraversedCol)
-                            {
-
-                            }
-
-                            lastTraversedRow = playerRowLocation;
-                            lastTraversedCol = playerColumnLocation;
-                            if (FindPath(playerRowLocation - 1, playerColumnLocation))
-                            {
-                                return true;
-                            }
-                        }
-
-                    }
-                    if (!(_Rooms[playerRowLocation, playerColumnLocation].EastDoor is null))
-                    {
-                        if ((_Rooms[playerRowLocation, playerColumnLocation].EastDoor.GetDoorStatus()) is false)
-                        {
-                            if (playerRowLocation == lastTraversedRow && playerColumnLocation + 1 == lastTraversedCol)
-                            {
-
-                            }
-                            lastTraversedRow = playerRowLocation;
-                            lastTraversedCol = playerColumnLocation;
-                            if (FindPath(playerRowLocation, playerColumnLocation + 1))
-                            {
-                                return true;
-                            }
-                        }
-
-                    }
-                    if (!(_Rooms[playerRowLocation, playerColumnLocation].SouthDoor is null))
-                    {
-
-                        if ((_Rooms[playerRowLocation, playerColumnLocation].SouthDoor.GetDoorStatus()) is false)
-                        {
-                            if (playerRowLocation + 1 == lastTraversedRow && playerColumnLocation == lastTraversedCol)
-                            {
-
-                            }
-                            lastTraversedRow = playerRowLocation;
-                            lastTraversedCol = playerColumnLocation;
-                            if (FindPath(playerRowLocation + 1, playerColumnLocation))
-                            {
-                                return true;
-                            }
-                        }
-
-                    }
-                    if (!(_Rooms[playerRowLocation, playerColumnLocation].WestDoor is null))
-                    {
-                        if ((_Rooms[playerRowLocation, playerColumnLocation].WestDoor.GetDoorStatus()) is false)
-                        {
-                            if (playerRowLocation == lastTraversedRow && playerColumnLocation - 1 == lastTraversedCol)
-                            {
-
-                            }
-                            lastTraversedRow = playerRowLocation;
-                            lastTraversedCol = playerColumnLocation;
-                            if (FindPath(playerRowLocation, playerColumnLocation - 1))
-                            {
-                                return true;
-                            }
-                        }
-
-                    }
-
-                    int lTR = lastTraversedRow;
-                    int lTC = lastTraversedCol;
-                    lastTraversedRow = playerRowLocation;
-                    lastTraversedCol = playerColumnLocation;
-                    traversable[playerRowLocation, playerColumnLocation] = false;
-                    FindPath(lTR, lTC);
-
-                    return false; */
-
-        /*
-                    return (((_Rooms[coordinate.row, coordinate.col].NorthDoor.GetDoorStatus() is false || _Rooms[coordinate.row, coordinate.col].NorthDoor.GetDoorStatus() is null))
-                        || (_Rooms[coordinate.row, coordinate.col].EastDoor.GetDoorStatus() is false || _Rooms[coordinate.row, coordinate.col].EastDoor.GetDoorStatus() is null))
-                        || (_Rooms[coordinate.row, coordinate.col].SouthDoor.GetDoorStatus() is false)
-                        || (_Rooms[coordinate.row, coordinate.col].WestDoor.GetDoorStatus() is false))
-                        && (traversed[coordinate.row, coordinate.col] == false));*/
-
-        /*            return ((coordinate.row >= 0 && coordinate.row <= 4) &&
-                        (coordinate.col >= 0 && coordinate.col <= 4) &&
-                        (traversed[coordinate.row, coordinate.col] == false));*/
-
-
-        //return false;
-        /*            if (r < 0 || r >= Rows) return false;
-                    if (c < 0 || c >= Columns) return false;
-
-                    if (x == 0)
-                    {
-                        return (((_Rooms[r+1, c].NorthDoor.GetDoorStatus() is false)));
-                    }
-                    if (x == 1)
-                    {
-                        return (((_Rooms[r, c-1].EastDoor.GetDoorStatus() is false)));
-                    }
-                    if (x == 2)
-                    {
-                        return (((_Rooms[r-1, c].SouthDoor.GetDoorStatus() is false)));
-                    }
-                    if (x == 3)
-                    {
-                        return (((_Rooms[r, c+1].WestDoor.GetDoorStatus() is false)));
-                    }
-                    return false;*/
-
 
         public void SetCheatLocation()
         {
@@ -448,20 +271,6 @@ namespace EntertainmentMaze.maze
                     this.surrogateArray[i][j] = _Rooms[i, j];
                 }
             }
-
-/*            int tRows = traversed.GetLength(0);
-            int tCols = traversed.GetLength(1);
-
-            this.surrogateTraversedArray = new bool[tRows][];
-            for (int i = 0; i < tRows; i++)
-            {
-                this.surrogateTraversedArray[i] = new bool[tCols];
-                for (int j = 0; j < cols; j++)
-                {
-                    this.surrogateTraversedArray[i][j] = traversed[i, j];
-                }
-            }*/
-
         }
 
         [OnDeserialized]
@@ -499,41 +308,9 @@ namespace EntertainmentMaze.maze
                     }
                 }
             }
-
-/*            if (this.surrogateTraversedArray == null)
-            {
-                traversed = null;
-            }
-            else
-            {
-                int tRows = this.surrogateTraversedArray.Length;
-                if (tRows == 0)
-                {
-                    traversed = new bool[0, 0];
-                }
-                else
-                {
-                    int tCols = this.surrogateTraversedArray[0].Length;
-                    for (int i = 1; i < tRows; i++)
-                    {
-                        if (this.surrogateTraversedArray[i].Length != tCols)
-                        {
-                            throw new InvalidOperationException("Surrogate array does not correspond to the original");
-                        }
-                    }
-
-                    traversed = new bool[tRows, tCols];
-                    for (int i = 0; i < tRows; i++)
-                    {
-                        for (int j = 0; j < tCols; j++)
-                        {
-                            traversed[i, j] = this.surrogateTraversedArray[i][j];
-                        }
-                    }
-                }
-            }*/
         }
     }
+
     [DataContract]
     public class Coordinate
     {
