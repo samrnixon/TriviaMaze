@@ -17,6 +17,7 @@ namespace EntertainmentMaze.maze
         public string CurrentQuestion { get; }
         public string Answer { get; }
 
+        
 
         public Question(int questionID, int answerID, int typeID, string question, string answer)
         {
@@ -32,10 +33,15 @@ namespace EntertainmentMaze.maze
             this.CurrentQuestion = question ?? throw new ArgumentNullException(nameof(question));
             this.Answer = answer ?? throw new ArgumentNullException(nameof(answer));
         }
-      
+
+
+
         public override string ToString()
         {
             return CurrentQuestion;
         }
+
+
+
     }
 }
